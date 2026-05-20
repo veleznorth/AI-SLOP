@@ -3,4 +3,5 @@ feature_id: ""
 source: ""
 reason: ""
 expected_evidence: []
+reuse_scan_required: false
 status: draft

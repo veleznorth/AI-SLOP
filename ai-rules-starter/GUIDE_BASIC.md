@@ -18,13 +18,13 @@ R2 keeps each executable leaf reviewable: added + deleted lines from `git diff -
 
 **Human**: States the request, constraints, acceptance criteria, and risk tolerance.
 
-**Classifier**: Converts the request into a root packet and decides whether the work should be split.
+**Classifier**: Runs once per cohesive human request or feature. It creates the root requirement packet, feature tree, candidate executable leaves, and initial diff estimates without deep codebase reading or implementation.
 
-**Reading Planner**: Chooses what files, docs, or tests must be read before implementation.
+**Reading Planner**: Chooses concrete reading leaves, may use Pi read-only for bounded exploration, and looks for existing implementation, partial implementation, duplication risk, missing evidence, and required reuse scans.
 
-**Reader**: Reads only the planned sources and records evidence with claim status.
+**Reader**: Executes reading_leaf entries and produces evidence packets with verified, inferred, unknown, contradiction, and risk fields.
 
-**Prompt Creator**: Builds the final bounded implementer prompt from request, evidence, and constraints.
+**Prompt Creator**: Reads the local GPT-5.5 prompting guide, then builds the final bounded implementer prompt from request, evidence, unknowns, and constraints. Unknowns do not become instructions.
 
 **Implementer**: Codex. Implements only from the final prompt, keeps scope small, and reports proof.
 

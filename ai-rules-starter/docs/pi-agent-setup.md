@@ -4,8 +4,14 @@ Pi Agent is the read-only harness for AI Rules planner and reader work. Use it
 only to inspect repository context, search files, and produce evidence packets
 that another agent or human can review.
 
+The Reading Planner may also use Pi for bounded pre-reading exploration before
+it emits reading_leaf entries. That exploration is for finding likely files,
+tests, docs, existing implementations, partial implementations, and duplication
+risk only.
+
 Pi is not an implementer. It must not write code, edit files, run shell
 commands, install dependencies, enable MCP, or keep session state by default.
+Pi remains limited to read, grep, find, ls.
 
 ## Default Command
 

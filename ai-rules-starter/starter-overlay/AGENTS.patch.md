@@ -17,6 +17,7 @@ Insert this managed block into the target repo's `AGENTS.md`.
 - If R1 or R2 is violated, report `R1_EXCEEDED` or `R2_EXCEEDED`.
 - Do not invent architecture, tooling, dependencies, or abstractions outside the prompt.
 - Stop if required evidence is missing or constraints conflict.
+- Final prompt builder must consult `docs/model-guides/gpt-5.5-prompting-for-ai-rules.md` before producing `final_prompt.md`.
 - Before final reporting, measure the diff with `git diff --numstat`.
 - Report files changed, checks executed, risks, and any skipped validation.
 <!-- AI_RULES_MANAGED_END -->

@@ -8,6 +8,8 @@ disallowed_scope:
 
 verified_evidence:
 
+unknowns:
+
 required_changes:
 
 prohibited_changes:

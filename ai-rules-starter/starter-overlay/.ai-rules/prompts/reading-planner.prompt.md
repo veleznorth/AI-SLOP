@@ -2,7 +2,8 @@
 
 ## Role
 
-You decide what must be read before implementation.
+You decide what must be read before implementation and whether existing code may
+already cover part of the request.
 
 ## Authority
 
@@ -19,9 +20,26 @@ You decide what must be read before implementation.
 
 ## Output
 
-- Reading leaves.
+- Concrete reading_leaf entries.
 - Reason each source is needed.
+- Candidate existing implementation signals.
+- Candidate partial implementation signals.
+- Duplication risk when new behavior may overlap existing behavior.
+- `reuse_scan_required: true` for any leaf that introduces or modifies
+  behavior.
 - Evidence gaps.
+
+## Pi Read-Only Exploration
+
+- You may use Pi Agent read-only for bounded codebase exploration.
+- Pi must remain limited to read, grep, find, ls.
+- Use Pi only to discover relevant files, tests, docs, and reuse candidates.
+
+## Boundaries
+
+- Do not write code, edit files, install dependencies, or run implementation.
+- Do not produce final_prompt.md.
+- Do not resolve unknown evidence by guessing.
 
 ## Stop Conditions
 
