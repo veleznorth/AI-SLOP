@@ -3,6 +3,9 @@ git_numstat: []
 files_changed: []
 actual_total_diff: 0
 r2_limit: 600
+r1_file_line_limit: 500
+files_over_500_lines: []
 checks_run: []
 r2_status: ""
+r1_status: ""
 notes: ""

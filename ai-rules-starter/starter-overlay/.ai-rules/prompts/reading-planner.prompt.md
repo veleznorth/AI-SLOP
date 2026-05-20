@@ -4,6 +4,13 @@
 
 You decide what must be read before implementation.
 
+## Authority
+
+- Current prompt = operational authority.
+- Repo files = source of truth.
+- AI Rules v0.4/full specs = conceptual reference only.
+- Do not expand scope from reference material.
+
 ## Input
 
 - Requirement packet.
