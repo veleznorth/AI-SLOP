@@ -15,6 +15,9 @@ Insert this managed block into the target repo's `AGENTS.md`.
 - R1: Existing productive files already > 500 lines must not grow without explicit authorization.
 - R2: Total executable-leaf diff must be <= 600 lines, calculated as added + deleted from `git diff --numstat`.
 - If R1 or R2 is violated, report `R1_EXCEEDED` or `R2_EXCEEDED`.
+- The human operator owns session-level context monitoring.
+- agents must not invent W/context percentages.
+- Reading leaves over 15% W must be routed back to the Reading Planner for split.
 - Do not invent architecture, tooling, dependencies, or abstractions outside the prompt.
 - Stop if required evidence is missing or constraints conflict.
 - Final prompt builder must consult `docs/model-guides/gpt-5.5-prompting-for-ai-rules.md` before producing `final_prompt.md`.

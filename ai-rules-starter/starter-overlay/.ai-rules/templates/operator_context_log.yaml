@@ -1,0 +1,17 @@
+log_id: ""
+phase: ""
+role: ""
+harness: ""
+model: ""
+operator_reported: false
+w_visible_total_tokens: null
+context_before_tokens: null
+context_after_tokens: null
+context_before_percent: null
+context_after_percent: null
+phase_context_delta_percent: null
+reading_leaf_id: ""
+reading_leaf_budget_percent: null
+status: "unknown" # within_budget | caution | exceeded | unknown
+action_taken: ""
+notes: ""

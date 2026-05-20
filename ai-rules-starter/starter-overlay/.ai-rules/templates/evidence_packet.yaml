@@ -7,3 +7,12 @@ sources_reviewed: []
 contradictions: []
 risks: []
 stop_label: ""
+context_budget_result:
+  operator_reported: false
+  context_before_percent: null
+  context_after_percent: null
+  budget_status: "unknown" # within_budget | caution | exceeded | unknown
+  stop_label: ""
+  # If budget_status is exceeded, set usable_as_prompt_authority to false
+  # unless human authorization is explicit and claims are perfectly traceable.
+  usable_as_prompt_authority: true

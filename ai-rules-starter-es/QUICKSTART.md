@@ -20,6 +20,10 @@ ai-rules-starter/starter-overlay/.ai-rules -> .ai-rules
 
 Mantén `.ai-rules/` commiteado para que los paquetes, prompts, checklists y entradas del ledger sean visibles para revisores.
 
+Lee `docs/operator-context-policy.md` antes de tareas largas. Cuando el
+operador tenga mediciones visibles de contexto, registralas con
+`.ai-rules/templates/operator_context_log.yaml`.
+
 ## 2. Parchea AGENTS.md
 
 Abre `starter-overlay/AGENTS.patch.md` desde dentro de `ai-rules-starter/`, o `ai-rules-starter/starter-overlay/AGENTS.patch.md` desde la raíz del repo, e inserta su bloque administrado en el `AGENTS.md` del repo destino.
@@ -37,7 +41,8 @@ Usa esta secuencia manual:
 5. Opcional: usa Pi de sólo lectura con `pi --tools read,grep,find,ls --no-session`
    sólo para evidencia del planner/reader.
 6. Usa `final-prompt-builder.prompt.md` para producir el prompt del implementador.
-7. Entrega sólo ese prompt final a Codex.
-8. Registra el resultado y los checks en `.ai-rules/ledger/`.
+7. Usa una instancia fresca antes de una fase nueva si la sesion actual esta alta.
+8. Entrega sólo ese prompt final a Codex.
+9. Registra el resultado y los checks en `.ai-rules/ledger/`.
 
 No agregues automatización todavía.

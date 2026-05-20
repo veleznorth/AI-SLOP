@@ -4,4 +4,14 @@ source: ""
 reason: ""
 expected_evidence: []
 reuse_scan_required: false
+context_budget:
+  operator_visible_w_required: true
+  planner_estimate: "" # low | medium | high
+  max_files_to_read: null
+  max_total_source_lines_proxy: null
+  budget_percent_proxy_limit: 8
+  budget_percent_exact_target: 10
+  budget_percent_hard_cap: 15
+  split_if_exceeds: true
+  split_recommendation: ""
 status: draft

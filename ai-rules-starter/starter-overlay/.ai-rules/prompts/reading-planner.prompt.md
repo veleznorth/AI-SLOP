@@ -22,11 +22,13 @@ already cover part of the request.
 
 - Concrete reading_leaf entries.
 - Reason each source is needed.
+- `context_budget.planner_estimate: low | medium | high`.
 - Candidate existing implementation signals.
 - Candidate partial implementation signals.
 - Duplication risk when new behavior may overlap existing behavior.
 - `reuse_scan_required: true` for any leaf that introduces or modifies
   behavior.
+- Separate `reuse_scan` leaf when duplication risk exists.
 - Evidence gaps.
 
 ## Pi Read-Only Exploration
@@ -34,11 +36,23 @@ already cover part of the request.
 - You may use Pi Agent read-only for bounded codebase exploration.
 - Pi must remain limited to read, grep, find, ls.
 - Use Pi only to discover relevant files, tests, docs, and reuse candidates.
+- Prefer `grep`, `find`, and `ls` over deep reads during planning.
+- Explore to ask better questions; do not produce evidence packets.
+
+## Context Budget
+
+- Prevent oversized reading leaves before emitting them.
+- Split before emitting a large `reading_leaf`.
+- Split if `allowed_scope` has more than 3-5 relevant files.
+- Split if one question contains multiple independent decisions.
+- Split if UI/backend/tests are mixed and the decisions are independent.
+- Confirm the operator can see or report visible `W` in the harness.
 
 ## Boundaries
 
 - Do not write code, edit files, install dependencies, or run implementation.
 - Do not produce final_prompt.md.
+- Do not read deeply enough to answer the evidence questions yourself.
 - Do not resolve unknown evidence by guessing.
 
 ## Stop Conditions

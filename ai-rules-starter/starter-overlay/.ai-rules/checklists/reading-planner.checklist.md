@@ -7,8 +7,10 @@ Before using Pi:
 - Confirm `disallowed_scope`.
 - Confirm the read-only Pi command.
 - Confirm Pi exploration is read-only and bounded.
+- Confirm Pi read-only.
 - Confirm bash, write, and edit will not be used.
 - Confirm the expected output format.
+- Confirm the operator can measure visible W in the harness.
 
 - Relevant repo instructions included.
 - Existing files searched before new code.
@@ -18,6 +20,11 @@ Before using Pi:
 - `reuse_scan_required` marked for behavior changes.
 - Tests or docs identified when available.
 - Each reading leaf has a reason.
+- `allowed_scope` has <= 3-5 relevant files, or the leaf is split.
+- Each `reading_leaf` has one primary question.
+- UI/backend/tests are not mixed in one leaf when decisions are independent.
+- Separate `reuse_scan` leaf created when duplication risk applies.
+- `context_budget.planner_estimate` is low, medium, or high.
 - Evidence gaps are named.
 - No implementation steps added.
 - Risky external tools are flagged.

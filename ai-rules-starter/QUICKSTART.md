@@ -20,6 +20,10 @@ Also copy `docs/model-guides/gpt-5.5-prompting-for-ai-rules.md` into the
 target repo at the same path. The final prompt builder must read it before
 creating `final_prompt.md`.
 
+Read `docs/operator-context-policy.md` before long tasks. When the operator has
+visible context measurements, record them with
+`.ai-rules/templates/operator_context_log.yaml`.
+
 ## 2. Patch AGENTS.md
 
 Open `starter-overlay/AGENTS.patch.md` from inside `ai-rules-starter/`, or `ai-rules-starter/starter-overlay/AGENTS.patch.md` from the repo root, and insert its managed block into the target repo's `AGENTS.md`.
@@ -37,7 +41,8 @@ Use this manual sequence:
 5. Optional: use Pi read-only with `pi --tools read,grep,find,ls --no-session`
    for planner/reader evidence only.
 6. Use `final-prompt-builder.prompt.md` to produce the implementer prompt.
-7. Give only that final prompt to Codex.
-8. Record the result and checks in `.ai-rules/ledger/`.
+7. Use a fresh instance before a new phase if the current session is high.
+8. Give only that final prompt to Codex.
+9. Record the result and checks in `.ai-rules/ledger/`.
 
 Do not add automation yet.
