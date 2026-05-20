@@ -1,0 +1,10 @@
+leaf_id: ""
+parent_feature_id: ""
+objective: ""
+allowed_scope: []
+disallowed_scope: []
+acceptance_criteria: []
+non_regression_criteria: []
+diff_estimate_ref: ""
+required_reading: []
+stop_conditions: []

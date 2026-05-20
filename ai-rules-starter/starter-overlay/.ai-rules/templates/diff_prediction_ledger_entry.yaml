@@ -1,0 +1,9 @@
+ledger_entry_id: ""
+leaf_id: ""
+predicted_total_diff: 0
+actual_total_diff: 0
+absolute_error: 0
+relative_error: null
+within_range: false
+calibration_notes: ""
+future_adjustment_hint: ""
