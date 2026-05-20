@@ -30,8 +30,10 @@ Use this manual sequence:
 2. Use `classifier.prompt.md` to classify scope.
 3. Use `reading-planner.prompt.md` to choose files to inspect.
 4. Use `evidence-reader.prompt.md` to collect evidence.
-5. Use `final-prompt-builder.prompt.md` to produce the implementer prompt.
-6. Give only that final prompt to Codex.
-7. Record the result and checks in `.ai-rules/ledger/`.
+5. Optional: use Pi read-only with `pi --tools read,grep,find,ls --no-session`
+   for planner/reader evidence only.
+6. Use `final-prompt-builder.prompt.md` to produce the implementer prompt.
+7. Give only that final prompt to Codex.
+8. Record the result and checks in `.ai-rules/ledger/`.
 
 Do not add automation yet.
