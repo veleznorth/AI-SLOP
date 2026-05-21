@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 07 aislando constantes tecnicas."
+  - "El lector debe localizar R1, R2, W, 500, 600, 8%, 10% y 15%."
+  - "Habilita preservar esos valores sin traducir ni reinterpretar."
+reading_leaf_id: reading_leaf.numeric_constants_constraints.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.translation_constraints.spanish_copy_regeneration.b8b
+primary_question: "Que constantes tecnicas deben preservarse sin traducir, incluyendo R1, R2, W, 500, 600, 8%, 10% y 15%?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/10-evidence_packet-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [numeric_constants_preservation_set], informs_next_decision: "Entrega constantes tecnicas que el prompt final no debe traducir ni normalizar."}
+allowed_scope: {paths: ["ai-rules-starter/README.md", "ai-rules-starter/QUICKSTART.md", "ai-rules-starter/GUIDE_BASIC.md", "ai-rules-starter/FUNDAMENTALS.md", "ai-rules-starter/docs/*.md", "ai-rules-starter/starter-overlay/AGENTS.patch.md"], operations: ["Ejecutar rg solo para constantes tecnicas.", "Leer lineas coincidentes de maximo cinco archivos."]}
+disallowed_scope: ["No analizar comandos/rutas.", "No analizar stop labels fuera de R1/R2.", "No traducir contenido.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt."]
+search_plan: [{command: "rg -n \"R1|R2|\\bW\\b|500|600|8%|10%|15%\" ai-rules-starter --glob '*.md' --glob '*.yaml'", purpose: "Encontrar constantes tecnicas protegidas."}, {command: "sed -n '<match_line>,<match_line>p' <matched_file>", purpose: "Leer solo lineas coincidentes."}]
+success_condition: ["Confirma cada constante requerida como preserve_exact o UNKNOWN.", "Cita cada constante con rg o path:line.", "No convierte porcentajes ni budgets en valores traducidos."]
+stop_conditions: ["Si mas de 5 archivos requieren contexto, reportar NUMERIC_CONSTANTS_SPLIT_REQUIRED.", "Si un numero parece ejemplo no tecnico, marcar UNKNOWN."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Si una constante no aparece en scan citado, reportar UNKNOWN en vez de inferir."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Si un valor tiene significado incompatible entre archivos, citar y pedir decision."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Respaldado por rg o cita.", PROMPT_AUTHORITY: "Exigido por 03 o prompt actual.", UNKNOWN: "No probado.", CONTRADICTION: "Valor con significado incompatible."}, forbidden_claims: ["No afirmar que W fue medido.", "No afirmar que una traduccion preservo valores."]}
+citation_format: {required: true, format: "path:line or command:<exact rg command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 5, max_total_source_lines_proxy: 120, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si excede, separar R1/R2/W de porcentajes y valores 500/600."}
+reuse_scan_required: {required: true, instruction: "Revisar 10 solo para saber que 07 fue oversized; volver a escanear esta familia."}

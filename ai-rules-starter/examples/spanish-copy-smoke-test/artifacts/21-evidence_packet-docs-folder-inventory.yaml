@@ -1,0 +1,232 @@
+human_summary:
+  - "7 Markdown directos existen bajo ai-rules-starter/docs/."
+  - "Candidatos para copia espanola: los 7 docs directos; 5 fueron clasificados con lectura breve y 2 quedan inferidos por ruta/nombre."
+  - "ai-rules-starter/docs/model-guides/ queda fuera de esta hoja porque la hoja 13 lo excluye y dice que la hoja 14 lo cubre."
+  - "No hay exclusion verificada de un doc directo; advanced-reference.md requiere decision humana porque se declara placeholder."
+  - "Presupuesto exacto de contexto: unknown; proxy observado 174 lineas y 5 lecturas breves."
+packet_id: evidence_packet.docs_folder_inventory.spanish_copy_regeneration.b8f.2
+reading_leaf_id: reading_leaf.docs_folder_inventory.spanish_copy_regeneration.b8e
+claims_verified:
+  - id: direct_docs_md_inventory
+    label: VERIFIED_REPO_SCAN
+    claim: "Los archivos .md directos bajo ai-rules-starter/docs/ son: advanced-reference.md, codex-setup.md, convex-integration.md, mcp-safety.md, operator-context-policy.md, pi-agent-setup.md, skills-policy.md."
+    evidence:
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' | sort"
+  - id: direct_docs_line_proxy
+    label: VERIFIED_REPO_SCAN
+    claim: "El total proxy de lineas para los docs directos es 174, dentro del limite proxy 190 de la hoja."
+    per_file_line_counts:
+      ai-rules-starter/docs/advanced-reference.md: 5
+      ai-rules-starter/docs/codex-setup.md: 11
+      ai-rules-starter/docs/convex-integration.md: 10
+      ai-rules-starter/docs/mcp-safety.md: 10
+      ai-rules-starter/docs/pi-agent-setup.md: 60
+      ai-rules-starter/docs/skills-policy.md: 10
+      ai-rules-starter/docs/operator-context-policy.md: 68
+      total: 174
+    evidence:
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:19"
+  - id: leaf_allowed_scope_and_exclusion
+    label: VERIFIED_REPO_SCAN
+    claim: "La hoja 13 limita el alcance a ai-rules-starter/docs/*.md y excluye ai-rules-starter/docs/model-guides/."
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:10"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:11"
+  - id: model_guides_separate_leaf_scope
+    label: VERIFIED_REPO_SCAN
+    claim: "docs/model-guides/ debe excluirse de esta lectura porque la success_condition de la hoja 13 dice que 14 lo cubre."
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:13"
+  - id: five_brief_reads_limit_observed
+    label: VERIFIED_REPO_SCAN
+    claim: "Se usaron 5 lecturas breves de encabezado, que es el maximo indicado por la hoja."
+    files_briefly_read:
+      - ai-rules-starter/docs/advanced-reference.md
+      - ai-rules-starter/docs/codex-setup.md
+      - ai-rules-starter/docs/mcp-safety.md
+      - ai-rules-starter/docs/operator-context-policy.md
+      - ai-rules-starter/docs/pi-agent-setup.md
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:10"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:12"
+  - id: codex_setup_human_doc_candidate
+    label: VERIFIED_REPO_SCAN
+    claim: "codex-setup.md es un documento humano de setup operativo para Codex y es candidato directo para copia espanola."
+    evidence:
+      - "ai-rules-starter/docs/codex-setup.md:1"
+      - "ai-rules-starter/docs/codex-setup.md:3"
+      - "ai-rules-starter/docs/codex-setup.md:5"
+  - id: mcp_safety_human_doc_candidate
+    label: VERIFIED_REPO_SCAN
+    claim: "mcp-safety.md es un documento humano de reglas de seguridad MCP y es candidato directo para copia espanola."
+    evidence:
+      - "ai-rules-starter/docs/mcp-safety.md:1"
+      - "ai-rules-starter/docs/mcp-safety.md:3"
+      - "ai-rules-starter/docs/mcp-safety.md:5"
+  - id: operator_context_policy_human_doc_candidate
+    label: VERIFIED_REPO_SCAN
+    claim: "operator-context-policy.md es una politica humana sobre contexto/W y es candidato directo para copia espanola."
+    evidence:
+      - "ai-rules-starter/docs/operator-context-policy.md:1"
+      - "ai-rules-starter/docs/operator-context-policy.md:3"
+      - "ai-rules-starter/docs/operator-context-policy.md:5"
+      - "ai-rules-starter/docs/operator-context-policy.md:7"
+  - id: pi_agent_setup_human_doc_candidate
+    label: VERIFIED_REPO_SCAN
+    claim: "pi-agent-setup.md es un documento humano de setup para Pi Agent y es candidato directo para copia espanola, sin implicar que Pi este configurado o probado en este smoke test."
+    evidence:
+      - "ai-rules-starter/docs/pi-agent-setup.md:1"
+      - "ai-rules-starter/docs/pi-agent-setup.md:3"
+      - "ai-rules-starter/docs/pi-agent-setup.md:4"
+  - id: advanced_reference_placeholder
+    label: VERIFIED_REPO_SCAN
+    claim: "advanced-reference.md existe como documento humano corto, pero su propio contenido lo llama placeholder para notas operativas avanzadas."
+    evidence:
+      - "ai-rules-starter/docs/advanced-reference.md:1"
+      - "ai-rules-starter/docs/advanced-reference.md:3"
+      - "ai-rules-starter/docs/advanced-reference.md:5"
+claims_inferred:
+  - id: spanish_copy_include_candidates
+    label: INFERENCE_FROM_PATH
+    claim: "Para la futura copia espanola, el subconjunto docs/ general a llevar adelante como candidatos incluye los 7 .md directos inventariados."
+    include_candidates:
+      verified_by_brief_read:
+        - ai-rules-starter/docs/advanced-reference.md
+        - ai-rules-starter/docs/codex-setup.md
+        - ai-rules-starter/docs/mcp-safety.md
+        - ai-rules-starter/docs/operator-context-policy.md
+        - ai-rules-starter/docs/pi-agent-setup.md
+      inferred_from_path_and_line_count_only:
+        - ai-rules-starter/docs/convex-integration.md
+        - ai-rules-starter/docs/skills-policy.md
+    evidence:
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' | sort"
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+  - id: no_direct_doc_exclusion_found
+    label: INFERENCE_FROM_PATH
+    claim: "No se encontro una razon verificada para excluir ningun .md directo bajo docs/; las exclusiones verificadas aplican a docs/model-guides/ y no a los .md directos."
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:10"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:13"
+  - id: convex_and_skills_likely_human_docs
+    label: INFERENCE_FROM_PATH
+    claim: "convex-integration.md y skills-policy.md parecen documentos humanos candidatos por nombre, ubicacion directa en docs/ y conteo corto, pero no fueron leidos por el limite de cinco lecturas breves."
+    evidence:
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' | sort"
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+claims_unknown:
+  - id: full_content_not_read
+    label: UNKNOWN
+    claim: "No se probo lectura completa de ningun documento; no afirmar cobertura semantica completa ni readiness de traduccion."
+  - id: advanced_reference_include_decision
+    label: UNKNOWN
+    claim: "advanced-reference.md requiere decision humana: incluir como placeholder traducido, excluirlo de la copia espanola, o reemplazarlo por contenido real mas adelante."
+    evidence:
+      - "ai-rules-starter/docs/advanced-reference.md:3"
+      - "ai-rules-starter/docs/advanced-reference.md:5"
+  - id: convex_integration_content_classification
+    label: UNKNOWN
+    claim: "convex-integration.md no fue leido; su inclusion queda como candidato inferido, no como decision verificada por contenido."
+  - id: skills_policy_content_classification
+    label: UNKNOWN
+    claim: "skills-policy.md no fue leido; su inclusion queda como candidato inferido, no como decision verificada por contenido."
+  - id: exact_context_budget
+    label: UNKNOWN
+    claim: "El operador no informo context_before/context_after; no se puede calcular uso exacto de W."
+sources_reviewed:
+  reading_leaf:
+    - path: ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml
+      citations:
+        - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:1"
+        - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:8"
+        - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:10"
+        - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:13"
+        - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:19"
+  commands:
+    - command: "find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' | sort"
+      purpose: "Inventariar documentos .md directos bajo docs/."
+    - command: "find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+      purpose: "Medir proxy de lineas sin lectura completa."
+    - command: "sed -n '1,10p' ai-rules-starter/docs/advanced-reference.md"
+      purpose: "Lectura breve 1/5 para clasificacion."
+    - command: "sed -n '1,10p' ai-rules-starter/docs/codex-setup.md"
+      purpose: "Lectura breve 2/5 para clasificacion."
+    - command: "sed -n '1,10p' ai-rules-starter/docs/mcp-safety.md"
+      purpose: "Lectura breve 3/5 para clasificacion."
+    - command: "sed -n '1,10p' ai-rules-starter/docs/operator-context-policy.md"
+      purpose: "Lectura breve 4/5 para clasificacion."
+    - command: "sed -n '1,10p' ai-rules-starter/docs/pi-agent-setup.md"
+      purpose: "Lectura breve 5/5 para clasificacion."
+  brief_doc_lines:
+    - path: ai-rules-starter/docs/advanced-reference.md
+      citations:
+        - "ai-rules-starter/docs/advanced-reference.md:1"
+        - "ai-rules-starter/docs/advanced-reference.md:3"
+        - "ai-rules-starter/docs/advanced-reference.md:5"
+    - path: ai-rules-starter/docs/codex-setup.md
+      citations:
+        - "ai-rules-starter/docs/codex-setup.md:1"
+        - "ai-rules-starter/docs/codex-setup.md:3"
+        - "ai-rules-starter/docs/codex-setup.md:5"
+    - path: ai-rules-starter/docs/mcp-safety.md
+      citations:
+        - "ai-rules-starter/docs/mcp-safety.md:1"
+        - "ai-rules-starter/docs/mcp-safety.md:3"
+        - "ai-rules-starter/docs/mcp-safety.md:5"
+    - path: ai-rules-starter/docs/operator-context-policy.md
+      citations:
+        - "ai-rules-starter/docs/operator-context-policy.md:1"
+        - "ai-rules-starter/docs/operator-context-policy.md:3"
+        - "ai-rules-starter/docs/operator-context-policy.md:5"
+        - "ai-rules-starter/docs/operator-context-policy.md:7"
+    - path: ai-rules-starter/docs/pi-agent-setup.md
+      citations:
+        - "ai-rules-starter/docs/pi-agent-setup.md:1"
+        - "ai-rules-starter/docs/pi-agent-setup.md:3"
+        - "ai-rules-starter/docs/pi-agent-setup.md:4"
+contradictions:
+  - id: inherited_planner_packet_creation_contradiction
+    label: CONTRADICTION
+    claim: "La hoja 13 incluye 'No crear evidence_packet ni final_prompt' en disallowed_scope, pero el prompt operativo de este rol autoriza crear exactamente un evidence_packet. Se aplica la regla de contrato del prompt operativo."
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:11"
+  - id: no_operational_content_contradiction_seen
+    label: VERIFIED_REPO_SCAN
+    claim: "No se detecto, en las 5 lecturas breves, un documento que parezca operativo y ejemplo a la vez."
+risks:
+  - id: pi_enforcement_not_tested
+    risk: "Pi Agent no esta configurado para este smoke test; este packet no prueba Pi enforcement ni comportamiento de harness Pi."
+  - id: inferred_docs_need_human_review
+    risk: "convex-integration.md y skills-policy.md fueron clasificados como candidatos por ruta/nombre/conteo, no por lectura de contenido."
+  - id: placeholder_doc_decision
+    risk: "advanced-reference.md podria no pertenecer a una copia espanola publicable si el operador decide excluir placeholders."
+  - id: no_translation_performed
+    risk: "Este packet no traduce ni valida terminologia espanola; solo delimita inventario docs/."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after; no se inventa medicion de W."
+  proxy_result:
+    status: within_leaf_proxy
+    total_direct_doc_lines: 174
+    proxy_limit_lines: 190
+    brief_reads_used: 5
+    brief_reads_limit: 5
+    evidence:
+      - "command:find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/13-reading_leaf-docs-folder-inventory.yaml:19"
+stop_label:
+  status: READING_LEAF_COMPLETE
+  not_used: READ_LEAF_OVERSIZE
+  reason: "La hoja no fue demasiado amplia: 7 docs directos, 174 lineas proxy, 5 lecturas breves maximas usadas."
+usable_as_prompt_authority:
+  value: true
+  scope:
+    - "Inventario docs/*.md directo bajo ai-rules-starter/docs/."
+    - "Decision de excluir docs/model-guides/ de esta hoja."
+    - "Lista de candidatos y unknowns para un futuro prompt implementable."
+  limitations:
+    - "No es autoridad de traduccion."
+    - "No es autoridad sobre model-guides/."
+    - "No prueba Pi enforcement."
+    - "No reemplaza una decision humana sobre placeholders."

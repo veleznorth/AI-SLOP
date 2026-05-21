@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 07 aislando el aviso humano."
+  - "El lector debe definir el aviso que llevara cada archivo espanol."
+  - "Habilita evitar confusion entre copia de lectura y fuente operativa."
+reading_leaf_id: reading_leaf.spanish_copy_notice_constraints.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.translation_constraints.spanish_copy_regeneration.b8b
+primary_question: "Que aviso humano debe aparecer en cada archivo espanol para evitar confundir ai-rules-starter-es/ con fuente operativa?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/10-evidence_packet-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [spanish_copy_notice_text], informs_next_decision: "Entrega el requisito de aviso para cada archivo espanol futuro."}
+allowed_scope: {paths: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md", "ai-rules-starter/README.md"], operations: ["Leer solo lineas sobre copia de lectura y fuente operativa.", "Proponer requisito de aviso, no traduccion completa."]}
+disallowed_scope: ["No crear ai-rules-starter-es/.", "No redactar final_prompt.", "No crear evidence_packet.", "No traducir documentos.", "No declarar Pi enforcement probado."]
+search_plan: [{command: "rg -n \"copia de lectura|fuente operativa|reading copy|operational source|ai-rules-starter-es|ai-rules-starter/\" ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md ai-rules-starter/README.md", purpose: "Encontrar base local para el aviso."}, {command: "sed -n '<match_line>,<match_line>p' <matched_file>", purpose: "Leer solo lineas coincidentes."}]
+success_condition: ["Define los elementos obligatorios del aviso humano.", "Aclara que ai-rules-starter/ sigue siendo fuente operativa inglesa.", "Cita el prompt/artefactos usados y no implementa el aviso."]
+stop_conditions: ["Si no hay evidencia local del requisito, marcar UNKNOWN_NOTICE_REQUIREMENT.", "Si el aviso podria parecer instruccion operativa, marcar CONTRADICTION."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Sin cita local, no formular aviso definitivo."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Priorizar claridad de lectura humana y no operativa; pedir decision si hay conflicto."}
+claim_label_policy: {labels: {PROMPT_AUTHORITY: "Tomado de 03 o prompt actual.", VERIFIED_REPO_SCAN: "Respaldado por rg o cita.", UNKNOWN: "No probado.", CONTRADICTION: "Aviso confunde autoridad operativa."}, forbidden_claims: ["No decir que el aviso ya fue insertado.", "No declarar Pi enforcement probado."]}
+citation_format: {required: true, format: "path:line or command:<exact rg command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 3, max_total_source_lines_proxy: 80, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si aparecen varios avisos incompatibles, crear hoja solo para wording del aviso."}
+reuse_scan_required: {required: true, instruction: "Revisar 10 y 11 como senales de replan; no usarlos para afirmar implementacion."}

@@ -24,10 +24,16 @@ You build a bounded prompt for Codex.
 
 ## Output
 
-- Final implementer prompt.
+- `final_prompt.md` as the deliverable artifact.
 - Explicit files or areas in scope.
 - Required checks.
 - Stop conditions for Codex.
+- Short operator response with status, artifacts, findings, risks/blockers, and
+  next action.
+
+The Implementer receives `final_prompt.md directly`. Do not rewrite it with a
+new wrapper that changes authority, scope, evidence, or allowed files; add only
+the minimum role instruction if the harness requires one.
 
 ## Unknowns
 
@@ -35,6 +41,8 @@ You build a bounded prompt for Codex.
 - `DESCONOCIDO` is a blocker or risk, not an instruction to implement.
 - Do not convert unknown facts into requirements, file paths, symbols, or
   acceptance criteria.
+- Do not use oversized evidence as clean authority. Treat it as a replan signal
+  unless the human explicitly authorizes use and traceability is complete.
 
 ## Stop Conditions
 

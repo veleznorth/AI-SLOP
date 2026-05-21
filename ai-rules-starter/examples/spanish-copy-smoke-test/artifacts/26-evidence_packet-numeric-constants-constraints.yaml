@@ -1,0 +1,68 @@
+packet_id: evidence_packet.numeric_constants_constraints.spanish_copy_regeneration.b8f_7
+reading_leaf_id: reading_leaf.numeric_constants_constraints.spanish_copy_regeneration.b8e
+human_summary:
+  - "R1, R2, W, 500, 600, 8%, 10% y 15% aparecen en documentos permitidos."
+  - "R1 esta ligado a 500 lineas; R2 esta ligado a 600 lineas de diff."
+  - "W es una constante de ventana/contexto visible; los agentes no deben inventar porcentajes de W."
+  - "8%, 10% y 15% son umbrales tecnicos de W y deben preservarse como valores exactos."
+  - "No se midio W ni se verifico una traduccion; solo se identificaron restricciones."
+claims_verified:
+  - claim: "R1 aparece como regla tecnica y debe preservarse literalmente como `R1`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/GUIDE_BASIC.md:14", "ai-rules-starter/starter-overlay/AGENTS.patch.md:14", "ai-rules-starter/starter-overlay/AGENTS.patch.md:15"]
+  - claim: "500 aparece como limite tecnico asociado a R1 y debe preservarse literalmente como `500`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/GUIDE_BASIC.md:14", "ai-rules-starter/starter-overlay/AGENTS.patch.md:14", "ai-rules-starter/starter-overlay/AGENTS.patch.md:15"]
+  - claim: "R2 aparece como regla tecnica y debe preservarse literalmente como `R2`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/GUIDE_BASIC.md:15", "ai-rules-starter/starter-overlay/AGENTS.patch.md:16", "ai-rules-starter/starter-overlay/AGENTS.patch.md:17"]
+  - claim: "600 aparece como limite tecnico asociado a R2 y debe preservarse literalmente como `600`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/GUIDE_BASIC.md:15", "ai-rules-starter/starter-overlay/AGENTS.patch.md:16"]
+  - claim: "W aparece como constante tecnica de ventana/contexto; no debe inventarse ni medirse sin exposicion del harness."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/docs/operator-context-policy.md:5", "ai-rules-starter/docs/operator-context-policy.md:7", "ai-rules-starter/docs/operator-context-policy.md:12", "ai-rules-starter/docs/operator-context-policy.md:13"]
+  - claim: "8% aparece como proxy planning limit de W y debe preservarse literalmente como `8%`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/docs/operator-context-policy.md:21"]
+  - claim: "10% aparece como exact-count target de W y debe preservarse literalmente como `10%`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/docs/operator-context-policy.md:22"]
+  - claim: "15% aparece como hard cap de W y umbral de split/oversize; debe preservarse literalmente como `15%`."
+    label: VERIFIED_REPO_SCAN
+    sources: ["ai-rules-starter/GUIDE_BASIC.md:33", "ai-rules-starter/docs/operator-context-policy.md:23", "ai-rules-starter/docs/operator-context-policy.md:48", "ai-rules-starter/starter-overlay/AGENTS.patch.md:20"]
+  - claim: "La copia espanola debe preservar literalmente R1, R2, W, 500, 600, 8%, 10% y 15%; esta restriccion viene del prompt operativo y de la pregunta primaria de la hoja."
+    label: PROMPT_AUTHORITY
+    sources: ["current_prompt", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/18-reading_leaf-numeric-constants-constraints.yaml:3", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/18-reading_leaf-numeric-constants-constraints.yaml:4", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/18-reading_leaf-numeric-constants-constraints.yaml:8"]
+claims_inferred:
+  - claim: "Traducir explicaciones alrededor de R1/R2/W puede cambiar significado si altera los vinculos R1->500, R2->600 o los umbrales 8%/10%/15% de W."
+    basis: "Los documentos permitidos asignan funcion normativa a esos simbolos y valores."
+claims_unknown:
+  - claim: "No se verifico una copia espanola existente que ya preserve estas constantes."
+    label: UNKNOWN
+  - claim: "No se midio W ni se calcularon valores reales para 8%, 10% o 15% en este entorno."
+    label: UNKNOWN
+  - claim: "context_before/context_after no fueron informados por el operador."
+    label: UNKNOWN
+  - claim: "No se reviso 10-evidence_packet-translation-constraints.yaml porque no esta dentro del allowed_scope operativo indicado para esta lectura."
+    label: UNKNOWN
+sources_reviewed:
+  reading_leaf: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/18-reading_leaf-numeric-constants-constraints.yaml"
+  rg_command: "rg -n \"R1|R2|\\bW\\b|500|600|8%|10%|15%\" ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md ai-rules-starter/docs/*.md ai-rules-starter/starter-overlay/AGENTS.patch.md"
+  matched_files:
+    - "ai-rules-starter/GUIDE_BASIC.md"
+    - "ai-rules-starter/docs/operator-context-policy.md"
+    - "ai-rules-starter/starter-overlay/AGENTS.patch.md"
+contradictions:
+  - "La hoja 18 incluye `No crear evidence_packet` en disallowed_scope, pero el prompt operativo autoriza exactamente este evidence_packet; se trato como contradiccion heredada del planner."
+risks:
+  - "Riesgo de significado si se traducen o normalizan los simbolos R1, R2 o W."
+  - "Riesgo de significado si 500, 600, 8%, 10% o 15% se convierten, redondean o reetiquetan."
+  - "No hay prueba de Pi enforcement; este packet no debe usarse como evidencia de enforcement de Pi."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after; no se inventan porcentajes de W."
+stop_label: "NUMERIC_CONSTANTS_EVIDENCE_PACKET_READY"
+usable_as_prompt_authority:
+  value: true
+  scope: "Solo restricciones de constantes numericas/tecnicas para copia espanola; no autoriza traduccion ni enforcement Pi."

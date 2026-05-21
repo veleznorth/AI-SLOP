@@ -1,0 +1,56 @@
+id: root_requirement_packet.spanish_copy_regeneration.b8a
+artifact_type: root_requirement_packet
+classification_phase: B8a
+authority:
+  operational_authority: current_prompt
+  source_of_truth: current_repo
+  conceptual_reference: AI Rules v0.4
+human_intent: >
+  Regenerar desde cero la copia de lectura en espanol `ai-rules-starter-es/`
+  usando como fuente actual `ai-rules-starter/`, porque la copia espanola
+  anterior fue eliminada.
+expected_behavior:
+  - Crear una copia documental en espanol para lectura y supervision humana.
+  - Mantener `ai-rules-starter/` como fuente operativa en ingles para agentes.
+  - Usar el contenido actual de `ai-rules-starter/` como base de la copia.
+  - Incluir en cada archivo espanol una aclaracion de que es copia de lectura y que la fuente operativa sigue en ingles.
+constraints:
+  hard:
+    - No modificar `ai-rules-starter/`.
+    - No usar internet.
+    - No anadir dependencias.
+    - No crear tooling.
+    - Tratar `ai-rules-starter-es/` como carpeta de lectura humana.
+    - No traducir comandos shell.
+    - No traducir rutas.
+    - No traducir stop labels.
+    - No traducir nombres de archivos.
+    - No traducir valores tecnicos como R1, R2, W, 500, 600, 8%, 10%, 15%.
+    - Mantener markers como `<!-- AI_RULES_MANAGED_START -->` intactos.
+scope_out:
+  - Planificacion detallada de implementacion.
+  - Lectura profunda del codebase en fase B8a.
+  - Implementacion de la traduccion en fase B8a.
+  - Creacion de `ai-rules-starter-es/*` en fase B8a.
+  - Creacion de `reading_leaf.yaml`, `evidence_packet.yaml`, `final_prompt.md` o `audit_report.md` en fase B8a.
+  - Validacion semantica final de la traduccion.
+acceptance_criteria:
+  - Existe una hoja ejecutable acotada para regenerar `ai-rules-starter-es/`.
+  - La hoja limita su alcance a la copia espanola de lectura.
+  - La hoja preserva `ai-rules-starter/` sin modificaciones.
+  - La hoja exige aclaracion de copia de lectura en cada archivo espanol.
+  - La hoja preserva comandos shell, rutas, stop labels, nombres de archivos, valores tecnicos y markers.
+  - El diff estimate inicial incluye rango low/likely/high y mantiene high dentro de R2 <= 600.
+unknowns:
+  - id: source_file_inventory
+    status: pending_reading
+    detail: Inventario exacto de archivos y lineas bajo `ai-rules-starter/`.
+  - id: existing_spanish_target_state
+    status: pending_reading
+    detail: Confirmacion del estado de `ai-rules-starter-es/` en el momento de implementacion.
+  - id: managed_marker_frequency
+    status: pending_reading
+    detail: Cantidad y ubicacion de markers que deben preservarse intactos.
+  - id: exact_translation_diff_size
+    status: unknown
+    detail: Tamano real del diff depende del inventario de fuente no leido en B8a.

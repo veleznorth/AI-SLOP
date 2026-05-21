@@ -1,0 +1,14 @@
+run_id: ""
+mode: "" # Lite | Standard | Strict
+human_request: ""
+artifacts:
+  - artifact_id: ""
+    path: ""
+    producer_role: ""
+    phase: ""
+    status: "" # clean | oversized | superseded | context-only | final | NOT_PROVEN
+    authority_level: ""
+    notes: ""
+not_proven: []
+findings: []
+next_action: ""

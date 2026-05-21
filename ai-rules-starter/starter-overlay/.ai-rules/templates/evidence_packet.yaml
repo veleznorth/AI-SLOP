@@ -1,5 +1,11 @@
 packet_id: ""
 reading_leaf_id: ""
+human_operator_response:
+  status: ""
+  files_created_or_modified: []
+  main_findings: []
+  risks_blockers: []
+  recommended_next_action: ""
 claims_verified: []
 claims_inferred: []
 claims_unknown: []
@@ -16,3 +22,9 @@ context_budget_result:
   # If budget_status is exceeded, set usable_as_prompt_authority to false
   # unless human authorization is explicit and claims are perfectly traceable.
   usable_as_prompt_authority: true
+output_caps:
+  max_human_summary_bullets: 5
+  max_claims_verified_default: 10
+  max_claims_unknown_default: 8
+  concise_sources_required: true
+  oversize_policy: "Stop with READ_LEAF_OVERSIZE or request explicit authorization before producing a large packet."

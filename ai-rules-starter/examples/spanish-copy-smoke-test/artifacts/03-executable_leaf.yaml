@@ -1,0 +1,57 @@
+id: executable_leaf.regenerate_spanish_reading_copy
+artifact_type: executable_leaf
+classification_phase: B8a
+traceability:
+  root_requirement_packet: root_requirement_packet.spanish_copy_regeneration.b8a
+  feature_node: feature_node.spanish_reading_copy_regeneration
+objective: >
+  Regenerar `ai-rules-starter-es/` desde `ai-rules-starter/` como copia
+  espanola de lectura humana, sin alterar la fuente operativa inglesa.
+allowed_scope:
+  reads:
+    - '`ai-rules-starter/`'
+  writes:
+    - '`ai-rules-starter-es/`'
+  operations:
+    - Inventariar archivos fuente antes de crear la copia.
+    - Crear archivos equivalentes en `ai-rules-starter-es/`.
+    - Traducir prosa explicativa al espanol para lectura humana.
+    - Insertar en cada archivo espanol una aclaracion de copia de lectura y fuente operativa inglesa.
+    - Preservar intactos comandos shell, rutas, stop labels, nombres de archivos, valores tecnicos y markers.
+disallowed_scope:
+  - Modificar `ai-rules-starter/`.
+  - Usar internet.
+  - Anadir dependencias.
+  - Crear tooling.
+  - Cambiar semantica operativa de reglas para agentes.
+  - Traducir comandos shell.
+  - Traducir rutas.
+  - Traducir stop labels.
+  - Traducir nombres de archivos.
+  - Traducir valores tecnicos como R1, R2, W, 500, 600, 8%, 10%, 15%.
+  - Modificar markers como `<!-- AI_RULES_MANAGED_START -->`.
+  - Crear `reading_leaf.yaml`, `evidence_packet.yaml`, `final_prompt.md` o `audit_report.md`.
+required_reading:
+  - path: '`ai-rules-starter/`'
+    status: pending_reading
+    purpose: Inventariar archivos, estructura, markers, rutas, comandos y terminos tecnicos protegidos.
+  - path: '`ai-rules-starter-es/`'
+    status: pending_reading
+    purpose: Confirmar si existe algun residuo antes de regenerar la copia.
+acceptance_criteria:
+  - '`ai-rules-starter-es/` existe como copia de lectura humana en espanol.'
+  - La estructura de archivos relevante refleja la fuente actual `ai-rules-starter/`.
+  - Cada archivo espanol declara que es copia de lectura y que `ai-rules-starter/` sigue siendo la fuente operativa.
+  - '`ai-rules-starter/` no tiene cambios.'
+  - No se agregan dependencias ni tooling.
+  - Comandos shell, rutas, stop labels, nombres de archivos, valores tecnicos y markers permanecen intactos.
+  - No se crean artefactos fuera del alcance de la hoja.
+verification_commands:
+  - '`find ai-rules-starter-es -type f | sort`'
+  - '`git diff --check`'
+  - '`git diff --numstat`'
+pending_evidence:
+  - source_file_inventory
+  - target_file_inventory
+  - marker_preservation_check
+  - diff_numstat

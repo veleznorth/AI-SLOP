@@ -1,0 +1,45 @@
+estimate_stage: pre_prompt
+estimate_status: committed
+artifact_type: diff_estimate
+traceability:
+  executable_leaf: ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+  initial_estimate: ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+  target_state_evidence: ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/09-evidence_packet-target-state.yaml
+  clean_evidence_packets:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/20-evidence_packet-root-docs-inventory.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/21-evidence_packet-docs-folder-inventory.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/22-evidence_packet-model-guides-inventory.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/23-evidence_packet-overlay-inventory.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/24-evidence_packet-commands-paths-constraints.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/25-evidence_packet-stop-labels-markers-constraints.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/26-evidence_packet-numeric-constants-constraints.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/27-evidence_packet-spanish-copy-notice-constraints.yaml
+predicted_added_lines:
+  low: 390
+  likely: 440
+  high: 560
+predicted_deleted_lines:
+  low: 0
+  likely: 0
+  high: 0
+predicted_total_diff:
+  low: 390
+  likely: 440
+  high: 560
+uncertainty_range:
+  low: 390
+  likely: 440
+  high: 560
+diff_budget_lines: 600
+file_line_limit: 500
+risk_factors:
+  - target ai-rules-starter-es/ was verified absent in packet 09, but implementer must recheck before writing.
+  - source inventory evidence covers human documentation and overlay reading copy, not every file under ai-rules-starter/.
+  - docs/advanced-reference.md is a placeholder and should be reported as a risk if translated.
+  - docs/convex-integration.md and docs/skills-policy.md were candidates inferred by path and line count; implementer must confirm they are human Markdown before translating.
+  - commands, paths, filenames, stop labels, markers, R1, R2, W, 500, 600, 8%, 10%, and 15% must remain literal.
+  - Pi Agent is not configured for this smoke test; no Pi enforcement claim is allowed.
+split_recommendation:
+  status: no_split
+  reason: uncertainty_range.high is 560, below diff_budget_lines 600.
+  stop_if_later_high_exceeds_budget: STOP-DIFF-ESTIMATE-UNCERTAIN

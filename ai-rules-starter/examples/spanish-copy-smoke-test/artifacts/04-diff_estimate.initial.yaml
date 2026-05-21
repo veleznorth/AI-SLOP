@@ -1,0 +1,50 @@
+id: diff_estimate.initial.spanish_reading_copy_regeneration
+artifact_type: diff_estimate_initial
+classification_phase: B8a
+traceability:
+  root_requirement_packet: root_requirement_packet.spanish_copy_regeneration.b8a
+  feature_node: feature_node.spanish_reading_copy_regeneration
+  executable_leaf: executable_leaf.regenerate_spanish_reading_copy
+basis: >
+  Estimacion inicial sin lectura profunda del codebase. El prompt actual es la
+  autoridad operativa; cualquier dato que requiera inventario real queda como
+  pending_reading.
+predicted_added_lines:
+  low: 180
+  likely: 360
+  high: 580
+predicted_deleted_lines:
+  low: 0
+  likely: 0
+  high: 0
+predicted_total_diff:
+  low: 180
+  likely: 360
+  high: 580
+uncertainty_range:
+  low: 180
+  likely: 360
+  high: 580
+r2_guard:
+  maximum_allowed_high_for_single_leaf: 600
+  current_high: 580
+  status: within_limit
+risk_factors:
+  - id: source_inventory_unknown
+    impact: El numero real de archivos fuente puede superar la estimacion.
+    mitigation: Inventariar `ai-rules-starter/` antes de implementar y reclasificar si high excede 600.
+  - id: marker_preservation
+    impact: Markers gestionados deben quedar byte-for-byte intactos.
+    mitigation: Identificar markers antes de traducir y revisarlos despues.
+  - id: protected_token_translation
+    impact: Comandos, rutas, stop labels, nombres de archivos y valores tecnicos no deben traducirse.
+    mitigation: Mantener lista de tokens protegidos durante la traduccion.
+  - id: operational_source_confusion
+    impact: La copia espanola podria confundirse con fuente operativa.
+    mitigation: Incluir aviso explicito de copia de lectura en cada archivo espanol.
+split_recommendation:
+  initial_recommendation: no_split
+  reason: El high inicial es 580, dentro de R2 <= 600 para una hoja ejecutable.
+  condition_to_split: >
+    Si la lectura requerida muestra que el diff probable o high supera 600
+    lineas, dividir por grupos de archivos antes de implementar.

@@ -1,0 +1,174 @@
+packet_id: evidence_packet.translation_constraints.spanish_copy_regeneration.b8c
+reading_leaf_id: reading_leaf.translation_constraints.spanish_copy_regeneration.b8b
+claims_verified:
+  - id: translation_constraints.numeric_tokens
+    label: VERIFIED_REPO_SCAN
+    claim: "R1, R2, W, 500, 600, 8%, 10%, and 15% appear as protected technical values in source docs and smoke-test artifacts."
+    evidence:
+      - "ai-rules-starter/GUIDE_BASIC.md:14"
+      - "ai-rules-starter/GUIDE_BASIC.md:15"
+      - "ai-rules-starter/GUIDE_BASIC.md:20"
+      - "ai-rules-starter/GUIDE_BASIC.md:33"
+      - "ai-rules-starter/docs/operator-context-policy.md:21"
+      - "ai-rules-starter/docs/operator-context-policy.md:22"
+      - "ai-rules-starter/docs/operator-context-policy.md:23"
+      - "ai-rules-starter/docs/operator-context-policy.md:25"
+      - "ai-rules-starter/docs/operator-context-policy.md:27"
+      - "ai-rules-starter/docs/operator-context-policy.md:28"
+      - "ai-rules-starter/docs/operator-context-policy.md:29"
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:14"
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:15"
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:16"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml:28"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:31"
+  - id: translation_constraints.managed_markers
+    label: VERIFIED_REPO_SCAN
+    claim: "AGENTS managed markers exist and must be preserved intact."
+    evidence:
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:5"
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:26"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml:29"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:32"
+  - id: translation_constraints.stop_labels
+    label: VERIFIED_REPO_SCAN
+    claim: "Stop labels and protected status labels were found and must not be translated."
+    protected_labels:
+      - OUT_OF_SCOPE_FOR_THIS_PHASE
+      - R1_EXCEEDED
+      - R2_EXCEEDED
+      - READ_LEAF_OVERSIZE
+      - CONTEXT_LIMIT_EXCEEDED
+      - HARNESS_SCOPE_EXCEEDED
+      - HARNESS_INSUFFICIENT
+      - STOP-SCOPE-ESCALATION-REQUIRED
+      - PROTECTED_TOKEN_HIGH_RISK
+      - VERIFICADO
+      - INFERIDO
+      - DESCONOCIDO
+    evidence:
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:13"
+      - "ai-rules-starter/starter-overlay/AGENTS.patch.md:17"
+      - "ai-rules-starter/GUIDE_BASIC.md:33"
+      - "ai-rules-starter/docs/operator-context-policy.md:51"
+      - "ai-rules-starter/docs/pi-agent-setup.md:55"
+      - "ai-rules-starter/docs/pi-agent-setup.md:57"
+      - "ai-rules-starter/docs/pi-agent-setup.md:59"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:51"
+      - "ai-rules-starter/FUNDAMENTALS.md:19"
+      - "ai-rules-starter/FUNDAMENTALS.md:20"
+      - "ai-rules-starter/FUNDAMENTALS.md:21"
+  - id: translation_constraints.commands_paths_identifiers
+    label: VERIFIED_REPO_SCAN
+    claim: "Backtick-delimited commands, paths, filenames, and identifiers were found; future translation must preserve these tokens byte-for-byte unless a later prompt explicitly authorizes otherwise."
+    representative_protected_tokens:
+      - "`git diff --numstat`"
+      - "`docs/operator-context-policy.md`"
+      - "`.ai-rules/templates/operator_context_log.yaml`"
+      - "`starter-overlay/AGENTS.patch.md`"
+      - "`ai-rules-starter/starter-overlay/AGENTS.patch.md`"
+      - "`AGENTS.md`"
+      - "`.ai-rules/`"
+      - "`pi --tools read,grep,find,ls --no-session`"
+      - "`final_prompt.md`"
+      - "`ai-rules-starter/`"
+      - "`ai-rules-starter-es/`"
+      - "`<!-- AI_RULES_MANAGED_START -->`"
+    evidence:
+      - "command:rg -n '`[^`]+`' ai-rules-starter --glob '*.md' --glob '*.yaml'"
+      - "ai-rules-starter/GUIDE_BASIC.md:15"
+      - "ai-rules-starter/GUIDE_BASIC.md:19"
+      - "ai-rules-starter/GUIDE_BASIC.md:22"
+      - "ai-rules-starter/QUICKSTART.md:29"
+      - "ai-rules-starter/QUICKSTART.md:41"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml:9"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:50"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:51"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:52"
+  - id: translation_constraints.reading_copy_notice
+    label: PROMPT_AUTHORITY
+    claim: "Each future Spanish file must state that it is a human reading copy and that ai-rules-starter/ remains the operational English source."
+    evidence:
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml:14"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml:16"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml:27"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml:28"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:8"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:9"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:19"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:44"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml:43"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml:44"
+  - id: translation_constraints.pi_not_configured
+    label: NO_PI_ENFORCEMENT_PROOF
+    claim: "Pi Agent is not configured for this smoke test; Codex is acting as a simulated read-only role, and this packet does not prove Pi enforcement."
+    evidence:
+      - "prompt:current_user_message"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:26"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:48"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:63"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:67"
+      - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml:68"
+claims_inferred:
+  - id: translation_constraints.byte_preservation_rule
+    label: INFERENCE_FROM_PATH
+    claim: "The safest future regeneration rule is to preserve all commands, paths, filenames, stop labels, AGENTS markers, R1/R2/W, 500/600, and 8%/10%/15% exactly, while translating only surrounding prose."
+    basis:
+      - "Artifacts 01 and 03 explicitly prohibit translating these token classes."
+      - "The rg scans found these token classes across source docs, starter overlay files, and smoke-test artifacts."
+  - id: translation_constraints.split_by_token_group
+    label: INFERENCE_FROM_PATH
+    claim: "A future constraints read should be split by token group if deeper review is needed because matches were returned in more than five files."
+    basis:
+      - "command:rg -n \"AI_RULES_MANAGED|STOP|stop label|stop labels|R1|R2|\\bW\\b|8%|10%|15%|500|600\" ai-rules-starter --glob '*.md' --glob '*.yaml'"
+      - "command:rg -n '`[^`]+`' ai-rules-starter --glob '*.md' --glob '*.yaml'"
+      - "command:rg -n \"copy|reading|operational source|source operative|fuente operativa|copia de lectura\" ai-rules-starter ai-rules-starter/examples/spanish-copy-smoke-test/artifacts --glob '*.md' --glob '*.yaml'"
+claims_unknown:
+  - id: translation_constraints.no_translation_validation
+    label: UNKNOWN
+    claim: "No Spanish translation exists in ai-rules-starter-es/, so token preservation in translated files is not validated."
+  - id: translation_constraints.pi_enforcement_runtime
+    label: UNKNOWN
+    claim: "Pi enforcement was not tested and must not be reported as proven."
+  - id: translation_constraints.context_budget_w
+    label: UNKNOWN
+    claim: "The operator did not provide context_before/context_after, so W percentage usage is unknown."
+sources_reviewed:
+  commands:
+    - "sed -n '1,240p' ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml"
+    - "rg -n \"AI_RULES_MANAGED|STOP|stop label|stop labels|R1|R2|\\bW\\b|8%|10%|15%|500|600\" ai-rules-starter --glob '*.md' --glob '*.yaml'"
+    - "rg -n '`[^`]+`' ai-rules-starter --glob '*.md' --glob '*.yaml'"
+    - "rg -n \"copy|reading|operational source|source operative|fuente operativa|copia de lectura\" ai-rules-starter ai-rules-starter/examples/spanish-copy-smoke-test/artifacts --glob '*.md' --glob '*.yaml'"
+    - "rg -n \"ai-rules-starter-es|final_prompt|Pi Agent|Pi enforcement|copy of reading|reading copy|copia de lectura|fuente operativa|operational source|AGENTS|AI_RULES_MANAGED\" ai-rules-starter/examples/spanish-copy-smoke-test/artifacts ai-rules-starter --glob '*.md' --glob '*.yaml'"
+  files_briefly_read:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml
+contradictions: []
+risks:
+  - id: translation_constraints.protected_token_high_risk
+    label: PROTECTED_TOKEN_HIGH_RISK
+    detail: "AGENTS managed markers, stop labels, code-style commands, and path tokens are embedded in translatable prose and must be protected in any later implementation."
+  - id: translation_constraints.read_leaf_oversize
+    label: READ_LEAF_OVERSIZE
+    detail: "The directed rg scans returned matches across more than five files; deeper contextual reading should be split by token group."
+  - id: translation_constraints.no_pi_enforcement
+    label: NO_PI_ENFORCEMENT_PROOF
+    detail: "Codex simulated a read-only Evidence Reader role; Pi Agent was not configured and no Pi enforcement was tested."
+  - id: translation_constraints.flat_artifacts_follow_up
+    label: FOLLOW_UP
+    detail: "Artifacts should be grouped by role after the smoke test."
+context_budget_result:
+  status: unknown
+  reason: "The operator did not report context_before/context_after; no W percentage was measured or inferred."
+  observed_proxy:
+    matched_more_than_five_files: true
+    translation_exists: false
+stop_label: READ_LEAF_OVERSIZE
+usable_as_prompt_authority:
+  status: limited
+  usable_for:
+    - "Protected token classes for a later final prompt."
+    - "Required Spanish reading-copy notice."
+    - "Warning that Pi enforcement is not proven."
+  not_usable_for:
+    - "Proof that a translation preserves tokens."
+    - "Proof that Pi Agent is configured."
+    - "Any W percentage measurement."

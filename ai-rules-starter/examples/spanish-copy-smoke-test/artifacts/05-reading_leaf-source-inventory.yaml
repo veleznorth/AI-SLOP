@@ -1,0 +1,89 @@
+reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+primary_question: "Que archivos fuente de ai-rules-starter/ deben considerarse para regenerar la copia espanola?"
+decision_link:
+  upstream_artifacts:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+  resolves_unknowns:
+    - source_file_inventory
+    - source_scope_size
+  informs_next_decision: "Permite decidir que archivos pasan al prompt final de regeneracion y si la lectura/traduccion debe dividirse por grupos."
+allowed_scope:
+  paths:
+    - ai-rules-starter/
+  operations:
+    - "Listar archivos documentales y templates bajo ai-rules-starter/."
+    - "Contar lineas por archivo candidato sin leer el contenido completo."
+    - "Leer como maximo encabezados o primeras lineas de archivos ambiguos solo para clasificarlos como fuente, template, ejemplo o artefacto del smoke test."
+  candidate_groups_to_classify:
+    - root_docs
+    - docs
+    - docs/model-guides
+    - examples/first-task
+    - starter-overlay/.ai-rules
+    - starter-overlay/AGENTS.patch.md
+    - examples/spanish-copy-smoke-test/artifacts
+  note: "Los artefactos B8 del smoke test pueden existir dentro de ai-rules-starter/; inventariarlos como contexto de prueba y no asumir automaticamente que son documentos fuente a traducir."
+disallowed_scope:
+  - "Traducir contenido."
+  - "Leer todos los documentos de principio a fin."
+  - "Crear, editar o borrar ai-rules-starter-es/."
+  - "Modificar ai-rules-starter/."
+  - "Crear evidence_packet, final_prompt o audit_report."
+  - "Usar internet, dependencias nuevas o tooling nuevo."
+search_plan:
+  - command: "find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) | sort"
+    purpose: "Obtener inventario superficial de archivos candidatos."
+  - command: "find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) -print0 | xargs -0 wc -l | sort -n"
+    purpose: "Estimar tamano y riesgo de oversize sin lectura profunda."
+  - command: "find ai-rules-starter -maxdepth 3 -type d | sort"
+    purpose: "Confirmar estructura y grupos naturales para division."
+  - command: "sed -n '1,20p' <archivo ambiguo>"
+    purpose: "Clasificar solo archivos ambiguos cuando el path no baste."
+success_condition:
+  - "Entrega una lista de archivos candidatos con clasificacion include, exclude o needs_decision."
+  - "Identifica si el conjunto relevante excede 3-5 archivos y recomienda division."
+  - "Incluye line counts proxy por archivo o grupo."
+  - "Marca explicitamente el riesgo de leer/traducir todos los documentos en una sola reading_leaf."
+  - "Distingue fuente inglesa operativa de artefactos generados del smoke test."
+stop_conditions:
+  - "Si la clasificacion requiere leer contenido completo de mas de 2 archivos, detener y reportar SOURCE_INVENTORY_READING_SPLIT_REQUIRED."
+  - "Si el inventario supera el presupuesto de contexto, detener y proponer hojas por grupo de directorios."
+  - "Si aparece contenido no documental o binario, excluirlo del inventario y reportar UNKNOWN_SOURCE_TYPE."
+missing_evidence_policy:
+  label: UNKNOWN
+  instruction: "Si un archivo no puede clasificarse con path, extension, line count o encabezado breve, dejarlo como needs_decision; no inferir inclusion."
+contradiction_policy:
+  label: CONTRADICTION
+  instruction: "Si un archivo parece fuente operativa y artefacto de prueba a la vez, citar evidencia de ambos lados y devolverlo como decision requerida."
+claim_label_policy:
+  labels:
+    VERIFIED_REPO_SCAN: "Afirmacion respaldada por find, wc o lectura breve con cita."
+    INFERENCE_FROM_PATH: "Clasificacion razonable basada solo en ruta/nombre."
+    UNKNOWN: "No hay evidencia suficiente."
+    CONTRADICTION: "La evidencia de ruta o contenido breve apunta a clasificaciones incompatibles."
+  forbidden_claims:
+    - "No afirmar que un archivo fue leido completo."
+    - "No afirmar que un archivo debe traducirse si solo fue detectado por path."
+citation_format:
+  required: true
+  format: "path:line or command:<exact command>"
+  examples:
+    - "ai-rules-starter/README.md:1"
+    - "command:find ai-rules-starter -type f ..."
+context_budget:
+  operator_visible_w_required: true
+  planner_estimate: low
+  max_files_to_read: 2
+  max_total_source_lines_proxy: 80
+  budget_percent_proxy_limit: 8
+  budget_percent_exact_target: 10
+  budget_percent_hard_cap: 15
+  split_if_exceeds: true
+  split_recommendation: "Si hay mas de 3-5 archivos relevantes, dividir la lectura posterior por grupos: root docs, docs, starter-overlay y examples."
+reuse_scan_required:
+  required: true
+  instruction: "Antes de leer, revisar si existe un inventario B8b/B8 previo en artifacts; reutilizar solo si cita el mismo repo actual y comandos comparables."

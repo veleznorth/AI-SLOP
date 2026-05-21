@@ -1,0 +1,69 @@
+human_summary:
+  - "Hoja 17 ejecutada como lectura focalizada; no se tradujo contenido."
+  - "Los markers AI_RULES_MANAGED_START y AI_RULES_MANAGED_END aparecen y deben preservarse literalmente."
+  - "Los labels operativos encontrados deben conservarse byte-for-byte cuando aparezcan como stop/status labels."
+  - "Pi Agent no esta configurado para este smoke test; no se probo Pi enforcement."
+  - "No se informo context_before/context_after; el resultado de presupuesto queda unknown."
+packet_id: evidence_packet.stop_labels_markers_constraints.spanish_copy_regeneration.b8f_6
+reading_leaf_id: reading_leaf.stop_labels_markers_constraints.spanish_copy_regeneration.b8e
+claims_verified:
+  - claim: "El marker `<!-- AI_RULES_MANAGED_START -->` aparece en el overlay gestionado."
+    source: "ai-rules-starter/starter-overlay/AGENTS.patch.md:5"
+  - claim: "El marker `<!-- AI_RULES_MANAGED_END -->` aparece en el overlay gestionado."
+    source: "ai-rules-starter/starter-overlay/AGENTS.patch.md:26"
+  - claim: "`OUT_OF_SCOPE_FOR_THIS_PHASE` aparece como label operativo de reporte."
+    source: "ai-rules-starter/starter-overlay/AGENTS.patch.md:13"
+  - claim: "`R1_EXCEEDED` y `R2_EXCEEDED` aparecen como labels operativos de reporte."
+    source: "ai-rules-starter/starter-overlay/AGENTS.patch.md:17"
+  - claim: "`READ_LEAF_OVERSIZE` y `CONTEXT_LIMIT_EXCEEDED` aparecen como labels que el Reader reporta."
+    source: "ai-rules-starter/GUIDE_BASIC.md:33"
+  - claim: "`READ_LEAF_OVERSIZE` y `CONTEXT_LIMIT_EXCEEDED` aparecen tambien en la politica de contexto."
+    source: "ai-rules-starter/docs/operator-context-policy.md:51"
+  - claim: "`HARNESS_SCOPE_EXCEEDED`, `HARNESS_INSUFFICIENT` y `STOP-SCOPE-ESCALATION-REQUIRED` aparecen como stop labels de harness."
+    source: "ai-rules-starter/docs/pi-agent-setup.md:55,57,59"
+  - claim: "`RETURN_TO_READING_PLANNER` aparece como valor de `stop_label` en el stop report."
+    source: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md:12"
+  - claim: "El evidence packet 10 lista labels de stop/status y el marker AI_RULES_MANAGED_START; se uso solo como senal de oversize."
+    source: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/10-evidence_packet-translation-constraints.yaml:36-43,75,150,164"
+claims_inferred:
+  - claim: "Por la success_condition de la hoja 17, los tokens verificados arriba son el conjunto a preservar byte-for-byte cuando aparezcan en la copia espanola."
+    basis: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/17-reading_leaf-stop-labels-markers-constraints.yaml:13"
+  - claim: "`RETURN_TO_READING_PLANNER` debe tratarse como label literal porque aparece en un campo `stop_label`; no se encontro una definicion normativa adicional dentro de las lineas leidas."
+    basis: "rg exacto para RETURN_TO_READING_PLANNER"
+  - claim: "No hay prueba de Pi enforcement en este smoke test; esta conclusion viene del prompt operativo, no de ejecucion Pi."
+    basis: "autoridad operativa del prompt"
+claims_unknown:
+  - "context_before/context_after no fueron informados por el operador."
+  - "No se calculo W exacto ni porcentaje real de contexto."
+  - "No se probo Pi Agent ni enforcement Pi."
+  - "No se verifico exhaustivamente cada posible traduccion alternativa de labels fuera del patron rg de la hoja."
+  - "No se reclama inventario completo de todos los tokens uppercase fuera de AI_RULES_MANAGED/STOP/HARNESS/R1/R2/OUT_OF_SCOPE."
+sources_reviewed:
+  - command: >-
+      rg -n "AI_RULES_MANAGED|READ_LEAF_OVERSIZE|CONTEXT_LIMIT_EXCEEDED|R1_EXCEEDED|R2_EXCEEDED|STOP|HARNESS_|OUT_OF_SCOPE" ai-rules-starter --glob '*.md' --glob '*.yaml'
+  - command: >-
+      rg -n "RETURN_TO_READING_PLANNER" ai-rules-starter --glob '*.md' --glob '*.yaml'
+  - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/17-reading_leaf-stop-labels-markers-constraints.yaml"
+  - "ai-rules-starter/GUIDE_BASIC.md:33"
+  - "ai-rules-starter/starter-overlay/AGENTS.patch.md:5,13,17,26"
+  - "ai-rules-starter/docs/operator-context-policy.md:51"
+  - "ai-rules-starter/docs/pi-agent-setup.md:55,57,59"
+  - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/10-evidence_packet-translation-constraints.yaml:36-43,75,150,164"
+  - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md:12"
+contradictions:
+  - claim: "La hoja 17 dice en disallowed_scope `No crear evidence_packet ni final_prompt`, pero el prompt operativo autoriza exactamente un evidence_packet."
+    handling: "Tratado como contradiccion heredada del planner; se creo solo el packet 25."
+  - claim: "No se observo, en las lineas coincidentes revisadas, un mismo label en forma traducida y no traducida."
+    handling: "Sin CONTRADICTION adicional."
+risks:
+  - "El rg focalizado encontro matches en mas de cinco archivos; no se amplio contexto fuera del limite de lectura de la hoja."
+  - "El packet 10 esta marcado por oversize y se uso como senal, no como autoridad limpia."
+  - "`RETURN_TO_READING_PLANNER` fue verificado por rg exacto, sin lectura contextual adicional, para respetar el limite operativo."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after; no se invento W."
+  planner_estimate: low
+  max_files_to_read: 5
+  files_read_for_matching_lines: 5
+stop_label: NONE
+usable_as_prompt_authority: true

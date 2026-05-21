@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 05 separando solo documentos raiz."
+  - "El lector debe clasificar estos cuatro archivos sin revisar otros grupos."
+  - "Habilita decidir que docs raiz entran en la futura copia espanola."
+reading_leaf_id: reading_leaf.root_docs_inventory.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+primary_question: "Que documentos raiz de ai-rules-starter/ deben incluirse en la copia espanola?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/08-evidence_packet-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [root_docs_include_scope], informs_next_decision: "Define el subconjunto raiz para un futuro prompt implementable."}
+allowed_scope: {paths: ["ai-rules-starter/README.md", "ai-rules-starter/QUICKSTART.md", "ai-rules-starter/GUIDE_BASIC.md", "ai-rules-starter/FUNDAMENTALS.md"], operations: ["Inventariar y clasificar include, exclude o needs_decision.", "Leer solo encabezados y lineas necesarias para justificar la clasificacion."]}
+disallowed_scope: ["No leer docs/, model-guides/ ni starter-overlay/.", "No traducir contenido.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt.", "No usar Pi Agent ni declarar Pi enforcement probado."]
+search_plan: [{command: "wc -l ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md", purpose: "Estimar tamano del grupo raiz."}, {command: "sed -n '1,12p' <archivo_raiz>", purpose: "Leer solo contexto minimo para clasificar cada documento."}]
+success_condition: ["Lista los cuatro docs raiz con include/exclude/needs_decision.", "Cita cada decision con path:line o command:<exact command>.", "No usa evidencia oversized 08 como autoridad limpia de implementacion."]
+stop_conditions: ["Si la clasificacion exige leer mas de 5 archivos, reportar ROOT_DOCS_SCOPE_CONTRADICTION.", "Si un archivo raiz falta, marcar UNKNOWN y no inferir." ]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Si no hay cita directa para un archivo, dejarlo como needs_decision."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Si path y contenido breve apuntan a decisiones incompatibles, citar ambos y detener."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Respaldado por comando o cita.", INFERENCE_FROM_PATH: "Inferido solo por ruta/nombre.", UNKNOWN: "No probado.", CONTRADICTION: "Evidencia incompatible."}, forbidden_claims: ["No afirmar lectura completa.", "No afirmar que la copia espanola existe."]}
+citation_format: {required: true, format: "path:line or command:<exact command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 4, max_total_source_lines_proxy: 180, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si aparecen mas docs raiz, crear otra hoja raiz-extra antes de implementar."}
+reuse_scan_required: {required: true, instruction: "Revisar 08 solo como senal de oversize y revalidar el grupo raiz con comandos actuales."}

@@ -1,0 +1,85 @@
+reading_leaf_id: reading_leaf.target_state.spanish_copy_regeneration.b8b
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+primary_question: "Cual es el estado actual de ai-rules-starter-es/ y que implica para regenerarla?"
+decision_link:
+  upstream_artifacts:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+  resolves_unknowns:
+    - existing_spanish_target_state
+    - target_file_inventory
+  informs_next_decision: "Determina si el prompt final debe crear desde cero, reconciliar una carpeta parcial o detenerse por conflicto de implementacion previa."
+allowed_scope:
+  paths:
+    - ai-rules-starter-es/
+    - .
+  operations:
+    - "Verificar existencia o ausencia de ai-rules-starter-es/."
+    - "Si existe, listar archivos y directorios de forma superficial."
+    - "Si existe, leer como maximo encabezados de pocos archivos para detectar si son copia espanola, copia inglesa, residue parcial o implementacion ajena."
+    - "Consultar git status limitado a ai-rules-starter-es/ para detectar trabajo previo."
+disallowed_scope:
+  - "Crear ai-rules-starter-es/."
+  - "Editar, borrar, mover o sobrescribir contenido existente."
+  - "Traducir o regenerar archivos."
+  - "Modificar ai-rules-starter/."
+  - "Crear evidence_packet, final_prompt o audit_report."
+  - "Declarar completa una copia espanola sin inventario y citas."
+search_plan:
+  - command: "test -e ai-rules-starter-es; printf 'exists=%s\\n' \"$?\""
+    purpose: "Clasificar ausencia o existencia del destino."
+  - command: "find ai-rules-starter-es -maxdepth 4 -type f | sort"
+    purpose: "Si existe, listar archivos existentes sin lectura profunda."
+  - command: "find ai-rules-starter-es -maxdepth 4 -type d | sort"
+    purpose: "Si existe, listar estructura para detectar carpeta parcial o completa."
+  - command: "git status --short -- ai-rules-starter-es"
+    purpose: "Detectar implementacion previa o trabajo no trackeado en la carpeta destino."
+  - command: "sed -n '1,20p' <archivo destino ambiguo>"
+    purpose: "Solo si existe, clasificar archivo ambiguo con lectura minima."
+success_condition:
+  - "Clasifica el destino como absent, partial, complete, conflicting o unknown."
+  - "Explica implicacion directa para regeneracion: create_from_scratch, reconcile_partial, preserve_and_stop o require_human_decision."
+  - "Identifica si hay implementacion parcial o carpeta previa."
+  - "Confirma con citas si no hay carpeta destino."
+  - "Marca riesgo de duplicacion/confusion entre ai-rules-starter/ inglesa operativa y copia espanola."
+stop_conditions:
+  - "Si ai-rules-starter-es/ existe con mas de 5 archivos relevantes, detener y reportar TARGET_STATE_READING_SPLIT_REQUIRED."
+  - "Si hay archivos no relacionados o evidencia de trabajo humano previo, detener y reportar TARGET_CONFLICT_REQUIRES_DECISION."
+  - "Si cualquier comando requeriria crear o modificar la carpeta, detener."
+missing_evidence_policy:
+  label: UNKNOWN
+  instruction: "Si no se puede comprobar existencia, completitud o autoria previa, no inferir estado; reportar el comando faltante y la razon."
+contradiction_policy:
+  label: CONTRADICTION
+  instruction: "Si find indica ausencia pero git status o otro comando indica archivos en destino, citar ambas evidencias y detener para decision humana."
+claim_label_policy:
+  labels:
+    VERIFIED_ABSENT: "Ausencia respaldada por test/find con salida citada."
+    VERIFIED_PRESENT: "Existencia respaldada por find o git status."
+    PARTIAL_INFERENCE: "Parcialidad inferida por estructura o conteo, no por lectura completa."
+    UNKNOWN: "Estado no probado."
+    CONTRADICTION: "Comandos entregan resultados incompatibles."
+  forbidden_claims:
+    - "No afirmar que la carpeta fue regenerada."
+    - "No afirmar que una copia existente es semanticamente correcta."
+citation_format:
+  required: true
+  format: "command:<exact command> plus relevant output summary, or path:line for any brief file read"
+  examples:
+    - "command:test -e ai-rules-starter-es"
+    - "ai-rules-starter-es/README.md:1"
+context_budget:
+  operator_visible_w_required: true
+  planner_estimate: low
+  max_files_to_read: 3
+  max_total_source_lines_proxy: 90
+  budget_percent_proxy_limit: 8
+  budget_percent_exact_target: 10
+  budget_percent_hard_cap: 15
+  split_if_exceeds: true
+  split_recommendation: "Si la carpeta existe con contenido sustancial, crear una reading_leaf separada para inventario destino antes de cualquier prompt de regeneracion."
+reuse_scan_required:
+  required: true
+  instruction: "Revisar primero artefactos B8b existentes; aun si hay evidencia previa, revalidar existencia de ai-rules-starter-es/ porque puede cambiar entre turnos."

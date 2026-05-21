@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 07 aislando comandos shell y rutas."
+  - "El lector debe buscar tokens de codigo/ruta y no revisar otras restricciones."
+  - "Habilita preservar comandos y paths sin traducir en un prompt futuro."
+reading_leaf_id: reading_leaf.commands_paths_constraints.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.translation_constraints.spanish_copy_regeneration.b8b
+primary_question: "Que comandos shell y rutas deben preservarse sin traducir en la copia espanola?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/10-evidence_packet-translation-constraints.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [commands_paths_preservation_set], informs_next_decision: "Entrega reglas de preservacion para comandos y rutas, no para labels ni numeros."}
+allowed_scope: {paths: ["ai-rules-starter/README.md", "ai-rules-starter/QUICKSTART.md", "ai-rules-starter/GUIDE_BASIC.md", "ai-rules-starter/FUNDAMENTALS.md", "ai-rules-starter/docs/*.md", "ai-rules-starter/docs/model-guides/*.md", "ai-rules-starter/starter-overlay/AGENTS.patch.md"], operations: ["Ejecutar rg dirigido sobre backticks, comandos y rutas.", "Leer solo lineas coincidentes de maximo cinco archivos."]}
+disallowed_scope: ["No analizar stop labels, markers ni constantes numericas.", "No traducir prosa.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt.", "No tratar 10 como prueba de preservacion."]
+search_plan: [{command: "rg -n \"`[^`]+`|ai-rules-starter[-A-Za-z0-9_./]*|\\.ai-rules|AGENTS\\.md\" ai-rules-starter --glob '*.md' --glob '*.yaml'", purpose: "Encontrar comandos, rutas e identificadores protegidos."}, {command: "sed -n '<match_line>,<match_line>p' <matched_file>", purpose: "Leer solo la linea coincidente."}]
+success_condition: ["Lista comandos/rutas a preservar o clases de token si hay demasiadas ocurrencias.", "Cita comando rg y lineas representativas.", "Si los matches exigen mas de cinco archivos, reporta COMMANDS_PATHS_SPLIT_REQUIRED."]
+stop_conditions: ["Si hay matches relevantes en mas de 5 archivos que requieren contexto, detener.", "Si un token parece traducible y ruta a la vez, marcar CONTRADICTION."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Si un token no aparece en scan citado, no incluirlo como preservado."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Ante duda, preservar byte-for-byte y pedir decision con cita."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Token hallado por rg o cita.", PROMPT_AUTHORITY: "Regla tomada de 03 o prompt actual.", UNKNOWN: "No probado.", CONTRADICTION: "Preservacion/traduccion en conflicto."}, forbidden_claims: ["No afirmar que una traduccion preservo tokens.", "No declarar Pi enforcement probado."]}
+citation_format: {required: true, format: "path:line or command:<exact rg command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 5, max_total_source_lines_proxy: 140, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si excede, separar comandos shell de rutas/filenames."}
+reuse_scan_required: {required: true, instruction: "Revisar 10 solo como senal de oversize; ejecutar rg nuevo para esta familia de tokens."}

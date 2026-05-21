@@ -1,0 +1,76 @@
+human_summary:
+  - "Solo se ejecuto la hoja 14 sobre docs/model-guides/*.md."
+  - "El scan local encontro una unica guia Markdown bajo ai-rules-starter/docs/model-guides/."
+  - "gpt-5.5-prompting-for-ai-rules.md existe y es un documento humano breve."
+  - "La copia espanola debe incluirlo como guia de lectura/modelo, no como autoridad de alcance."
+  - "No se verifico vigencia externa de GPT-5.5 ni se tradujo contenido."
+packet_id: evidence_packet.model_guides_inventory.spanish_copy_regeneration.b8f_3
+reading_leaf_id: reading_leaf.model_guides_inventory.spanish_copy_regeneration.b8e
+model_guides_decision:
+  - path: ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md
+    decision: include
+    copy_role: guide_reading_candidate
+    prompt_authority_role: not_scope_authority
+    evidence:
+      - "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort"
+      - "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:1"
+      - "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:3"
+      - "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:5"
+claims_verified:
+  - claim: "La hoja 14 pregunta que documentos bajo ai-rules-starter/docs/model-guides/ deben incluirse en la copia espanola."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/14-reading_leaf-model-guides-inventory.yaml:8"
+  - claim: "El allowed_scope local de la hoja 14 cubre solo ai-rules-starter/docs/model-guides/*.md."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/14-reading_leaf-model-guides-inventory.yaml:10"
+  - claim: "El scan local lista exactamente un archivo Markdown bajo ai-rules-starter/docs/model-guides/."
+    evidence: "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort"
+  - claim: "El archivo encontrado es ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md."
+    evidence: "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort"
+  - claim: "gpt-5.5-prompting-for-ai-rules.md tiene 20 lineas."
+    evidence: "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+  - claim: "El archivo tiene titulo humano Markdown: GPT-5.5 Prompting for AI Rules."
+    evidence: "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:1"
+  - claim: "El archivo se describe como un placeholder operativo local para crear final prompts."
+    evidence: "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:3"
+  - claim: "El archivo contiene una seccion Required Use con reglas de uso."
+    evidence: "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:5"
+  - claim: "El archivo advierte que debe reemplazarse o expandirse solo despues de investigacion autorizada."
+    evidence: "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:20"
+claims_inferred:
+  - claim: "Por ruta, formato Markdown, titulo y seccion Required Use, el archivo parece un documento humano candidato para copia espanola."
+    basis: ["ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:1", "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:5"]
+  - claim: "Debe incluirse en la copia espanola como guia de lectura/modelo."
+    basis: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/14-reading_leaf-model-guides-inventory.yaml:8", "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort"]
+  - claim: "Debe preservarse como guia de lectura y no como autoridad de alcance; la autoridad operativa de alcance es el prompt actual."
+    basis: ["operator_prompt_current_turn", "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:3"]
+claims_unknown:
+  - claim: "No se sabe si la guia GPT-5.5 esta actualizada o completa."
+    reason: "La hoja prohibe afirmar vigencia y no se consulto internet."
+  - claim: "No se midio W exacto ni porcentaje real de contexto."
+    reason: "El operador no informo context_before/context_after."
+  - claim: "No se probo enforcement de Pi Agent."
+    reason: "Pi Agent no esta configurado para este smoke test."
+sources_reviewed:
+  - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/14-reading_leaf-model-guides-inventory.yaml:1-20"
+  - "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort"
+  - "command:find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l"
+  - "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md:1-20"
+contradictions:
+  - id: inherited_planner_no_packet
+    description: "La hoja 14 prohibe crear evidence_packet, pero el prompt operativo actual autoriza exactamente uno."
+    evidence: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/14-reading_leaf-model-guides-inventory.yaml:11", "operator_prompt_current_turn"]
+    resolution: "Se creo solo el packet autorizado 22."
+risks:
+  - "No se reviso 08 aunque la hoja lo menciona, porque el prompt actual limito la ejecucion al allowed_scope."
+  - "La guia local es placeholder y no prueba vigencia externa del modelo."
+  - "Este packet inventaria e infiere inclusion; no traduce ni valida una copia espanola final."
+context_budget_result:
+  status: unknown
+  operator_context_before_after: not_provided
+  w_measurement: not_measured
+  model_guide_files_read: 1
+  model_guide_source_lines_read: 20
+  read_leaf_oversize: false
+stop_label: READ_LEAF_COMPLETE
+usable_as_prompt_authority:
+  status: false
+  reason: "Usable solo como evidencia de inventario de hoja 14; no como autoridad de alcance ni final_prompt."

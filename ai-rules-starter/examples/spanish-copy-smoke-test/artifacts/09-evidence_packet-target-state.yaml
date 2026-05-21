@@ -1,0 +1,70 @@
+packet_id: evidence_packet.target_state.spanish_copy_regeneration.b8c
+reading_leaf_id: reading_leaf.target_state.spanish_copy_regeneration.b8b
+claims_verified:
+  - id: target_state.absent
+    label: VERIFIED_ABSENT
+    claim: "ai-rules-starter-es/ does not exist in the working tree at the time of this evidence read."
+    evidence:
+      - "command:test -e ai-rules-starter-es; printf 'exists=%s\\n' \"$?\""
+      - "output_summary: exists=1, meaning test -e did not find the path."
+  - id: target_state.no_git_status_entries
+    label: VERIFIED_ABSENT
+    claim: "git status limited to ai-rules-starter-es/ produced no entries."
+    evidence:
+      - "command:git status --short -- ai-rules-starter-es"
+      - "output_summary: empty output."
+  - id: target_state.no_target_files_read
+    label: VERIFIED_ABSENT
+    claim: "No target files were read because the destination path was absent."
+    evidence:
+      - "command:test -e ai-rules-starter-es; printf 'exists=%s\\n' \"$?\""
+      - "output_summary: exists=1."
+claims_inferred:
+  - id: target_state.implementation_implication
+    label: PARTIAL_INFERENCE
+    claim: "If a later implementer is authorized to regenerate the Spanish reading copy, the direct implication is create_from_scratch rather than reconcile_partial."
+    basis:
+      - "The destination path is absent."
+      - "No git status entries exist for ai-rules-starter-es/."
+claims_unknown:
+  - id: target_state.semantic_completeness
+    label: UNKNOWN
+    claim: "No semantic quality or completeness of a Spanish copy can be assessed because no target copy exists."
+  - id: target_state.previous_external_history
+    label: UNKNOWN
+    claim: "This packet does not determine whether an older Spanish copy existed outside the current working tree."
+  - id: target_state.context_budget_w
+    label: UNKNOWN
+    claim: "The operator did not provide context_before/context_after, so W percentage usage is unknown."
+sources_reviewed:
+  commands:
+    - "sed -n '1,220p' ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/06-reading_leaf-target-state.yaml"
+    - "test -e ai-rules-starter-es; printf 'exists=%s\\n' \"$?\""
+    - "git status --short -- ai-rules-starter-es"
+  files_briefly_read:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/06-reading_leaf-target-state.yaml
+contradictions: []
+risks:
+  - id: target_state.source_target_confusion
+    label: SOURCE_TARGET_CONFUSION
+    detail: "A future Spanish copy may be confused with the operational English source unless every Spanish file clearly states it is a human reading copy."
+  - id: target_state.flat_artifacts_follow_up
+    label: FOLLOW_UP
+    detail: "Artifacts should be grouped by role after the smoke test."
+context_budget_result:
+  status: unknown
+  reason: "The operator did not report context_before/context_after; no W percentage was measured or inferred."
+  observed_proxy:
+    target_exists: false
+    target_git_status_entries: 0
+stop_label: NONE
+usable_as_prompt_authority:
+  status: true
+  usable_for:
+    - "Current absence of ai-rules-starter-es/."
+    - "Current absence of git status entries under ai-rules-starter-es/."
+    - "Create-from-scratch implication for a later authorized implementation."
+  not_usable_for:
+    - "Semantic validation of a Spanish copy."
+    - "Proof of any prior external target history."
+    - "Any W percentage measurement."

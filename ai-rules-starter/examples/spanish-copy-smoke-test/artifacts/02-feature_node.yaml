@@ -1,0 +1,47 @@
+id: feature_node.spanish_reading_copy_regeneration
+artifact_type: feature_node
+classification_phase: B8a
+traceability:
+  root_requirement_packet: root_requirement_packet.spanish_copy_regeneration.b8a
+feature:
+  type: documentation_feature
+  name: regenerar_copia_espanola_de_lectura
+  title: Regenerar copia espanola de lectura
+  description: >
+    Crear nuevamente `ai-rules-starter-es/` como copia documental en espanol
+    orientada a lectura y supervision humana, derivada de la fuente actual
+    `ai-rules-starter/`.
+behavioral_contract:
+  source: '`ai-rules-starter/`'
+  target: '`ai-rules-starter-es/`'
+  operator_use: lectura_humana_y_supervision
+  agent_operational_source: '`ai-rules-starter/`'
+  translation_policy:
+    preserve_shell_commands: true
+    preserve_paths: true
+    preserve_stop_labels: true
+    preserve_file_names: true
+    preserve_technical_values: true
+    preserve_managed_markers: true
+  required_notice: >
+    Cada archivo en espanol debe aclarar que es copia de lectura y que la
+    fuente operativa para agentes sigue siendo `ai-rules-starter/`.
+allowed_outcome:
+  - Una carpeta `ai-rules-starter-es/` regenerada desde la fuente inglesa actual.
+  - Contenido en espanol para lectura humana con terminos tecnicos protegidos intactos.
+  - Sin cambios en `ai-rules-starter/`.
+disallowed_outcome:
+  - Cambiar la fuente operativa en ingles.
+  - Crear tooling, dependencias o automatizacion nueva.
+  - Traducir identificadores, comandos, rutas, stop labels, nombres de archivos, valores tecnicos o markers.
+  - Crear artefactos finales de fases posteriores durante B8a.
+acceptance_trace:
+  - root_requirement_packet.acceptance_criteria
+  - executable_leaf.regenerate_spanish_reading_copy.acceptance_criteria
+unknowns:
+  - id: source_scope_size
+    status: pending_reading
+    detail: El numero de archivos fuente debe confirmarse antes de ejecutar.
+  - id: file_specific_translation_rules
+    status: pending_reading
+    detail: Pueden existir reglas locales por archivo que solo se detectan leyendo la fuente.

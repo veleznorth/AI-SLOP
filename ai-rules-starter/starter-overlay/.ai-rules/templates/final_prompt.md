@@ -27,3 +27,9 @@ stop_conditions:
 - R2_EXCEEDED
 
 final_report_required:
+- status
+- files created or modified
+- main findings
+- risks or blockers
+- recommended next action
+- diff_result with numstat_method and added + deleted R2 calculation

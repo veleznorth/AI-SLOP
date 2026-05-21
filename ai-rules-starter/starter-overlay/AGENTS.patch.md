@@ -14,6 +14,7 @@ Insert this managed block into the target repo's `AGENTS.md`.
 - R1: New productive files must be <= 500 lines.
 - R1: Existing productive files already > 500 lines must not grow without explicit authorization.
 - R2: Total executable-leaf diff must be <= 600 lines, calculated as added + deleted from `git diff --numstat`.
+- If direct numstat misses untracked files, use `git add -N` intent-to-add or an equivalent documented method, and report the method.
 - If R1 or R2 is violated, report `R1_EXCEEDED` or `R2_EXCEEDED`.
 - The human operator owns session-level context monitoring.
 - agents must not invent W/context percentages.
@@ -21,6 +22,8 @@ Insert this managed block into the target repo's `AGENTS.md`.
 - Do not invent architecture, tooling, dependencies, or abstractions outside the prompt.
 - Stop if required evidence is missing or constraints conflict.
 - Final prompt builder must consult `docs/model-guides/gpt-5.5-prompting-for-ai-rules.md` before producing `final_prompt.md`.
+- Pi Agent enforcement is NOT_PROVEN unless a real Pi validation run is recorded.
 - Before final reporting, measure the diff with `git diff --numstat`.
-- Report files changed, checks executed, risks, and any skipped validation.
+- Report status, files changed, main findings, risks/blockers, next action,
+  checks executed, and any skipped validation.
 <!-- AI_RULES_MANAGED_END -->

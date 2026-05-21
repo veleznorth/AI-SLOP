@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 05 separando model-guides de docs/."
+  - "El lector debe clasificar solo guias de modelo."
+  - "Habilita decidir si esas guias entran como lectura espanola."
+reading_leaf_id: reading_leaf.model_guides_inventory.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+primary_question: "Que documentos bajo ai-rules-starter/docs/model-guides/ deben incluirse en la copia espanola?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/08-evidence_packet-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [model_guides_include_scope], informs_next_decision: "Aisla guias de modelo para no mezclar docs generales con instrucciones de modelo."}
+allowed_scope: {paths: ["ai-rules-starter/docs/model-guides/*.md"], operations: ["Listar guias de modelo.", "Leer solo lineas necesarias para decidir include/exclude/needs_decision."]}
+disallowed_scope: ["No leer docs/ fuera de model-guides.", "No traducir contenido.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt.", "No consultar internet sobre modelos."]
+search_plan: [{command: "find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' | sort", purpose: "Inventariar guias."}, {command: "find ai-rules-starter/docs/model-guides -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l", purpose: "Estimar tamano."}, {command: "sed -n '1,20p' <model_guide>", purpose: "Leer contexto minimo si existe una guia."}]
+success_condition: ["Lista cada guia de modelo con include/exclude/needs_decision.", "Cita el scan y cualquier lectura breve.", "No actualiza hechos de modelos desde internet."]
+stop_conditions: ["Si aparecen mas de 5 guias, reportar MODEL_GUIDES_SPLIT_REQUIRED.", "Si la inclusion depende de informacion externa actual, marcar UNKNOWN."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Si una guia no puede clasificarse localmente, dejar needs_decision."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Si una guia parece referencia historica y operativa a la vez, citar ambos indicios y detener."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Respaldado por scan local.", INFERENCE_FROM_PATH: "Inferido por ruta/nombre.", UNKNOWN: "No probado.", CONTRADICTION: "Evidencia incompatible."}, forbidden_claims: ["No afirmar que la guia esta actualizada.", "No afirmar lectura completa si no ocurrio."]}
+citation_format: {required: true, format: "path:line or command:<exact command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 5, max_total_source_lines_proxy: 120, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si hay muchas guias, dividir por proveedor/model family."}
+reuse_scan_required: {required: true, instruction: "Revisar 08 solo como contexto de oversize y confirmar model-guides con find actual."}

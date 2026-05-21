@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 05 aislando el overlay AGENTS."
+  - "El lector debe decidir si el patch tiene contraparte espanola solo de lectura."
+  - "Habilita evitar que la copia espanola se vuelva fuente operativa."
+reading_leaf_id: reading_leaf.overlay_inventory.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+primary_question: "Que archivo de overlay debe tener contraparte espanola de lectura sin convertirse en fuente operativa?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/08-evidence_packet-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [overlay_include_scope, overlay_operational_risk], informs_next_decision: "Define si AGENTS.patch.md se copia como lectura y que advertencia necesita."}
+allowed_scope: {paths: ["ai-rules-starter/starter-overlay/AGENTS.patch.md"], operations: ["Leer solo este archivo.", "Identificar si su contraparte espanola debe ser lectura no operativa."]}
+disallowed_scope: ["No leer .ai-rules/templates ni prompts.", "No modificar AGENTS.patch.md.", "No crear AGENTS.md.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt."]
+search_plan: [{command: "wc -l ai-rules-starter/starter-overlay/AGENTS.patch.md", purpose: "Confirmar tamano del unico archivo."}, {command: "sed -n '1,80p' ai-rules-starter/starter-overlay/AGENTS.patch.md", purpose: "Leer el archivo completo solo si cabe dentro del presupuesto."}]
+success_condition: ["Clasifica AGENTS.patch.md como include/exclude/needs_decision.", "Explica si la contraparte espanola debe llevar aviso no operativo.", "Cita markers o lineas relevantes."]
+stop_conditions: ["Si el archivo excede el presupuesto, reportar OVERLAY_SPLIT_REQUIRED.", "Si copiarlo podria confundirse con AGENTS.md operativo, marcar CONTRADICTION."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Si no se puede leer el archivo, no inferir inclusion."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Priorizar no convertir la copia espanola en fuente operativa; citar la evidencia."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Respaldado por wc o cita.", INFERENCE_FROM_PATH: "Inferido por ruta/nombre.", UNKNOWN: "No probado.", CONTRADICTION: "Riesgo operativo incompatible."}, forbidden_claims: ["No afirmar que AGENTS.md fue generado.", "No afirmar Pi enforcement probado."]}
+citation_format: {required: true, format: "path:line or command:<exact command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 1, max_total_source_lines_proxy: 80, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si el overlay crece, separar markers de texto explicativo."}
+reuse_scan_required: {required: true, instruction: "Revisar 08 solo para confirmar que overlay estaba mezclado en la hoja oversized."}

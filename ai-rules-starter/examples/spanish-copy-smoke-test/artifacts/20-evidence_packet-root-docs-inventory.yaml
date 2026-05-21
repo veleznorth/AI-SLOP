@@ -1,0 +1,111 @@
+packet_id: evidence_packet.root_docs_inventory.spanish_copy_regeneration.b8f1
+reading_leaf_id: reading_leaf.root_docs_inventory.spanish_copy_regeneration.b8e
+human_summary:
+  - "Los cuatro documentos raiz permitidos existen en ai-rules-starter/."
+  - "README.md, QUICKSTART.md, GUIDE_BASIC.md y FUNDAMENTALS.md parecen documentos humanos raiz candidatos para copia espanola."
+  - "No se identifico ningun archivo de los cuatro como no-humano o no-raiz con la lectura minima permitida."
+  - "La decision de inclusion se basa solo en encabezados y lineas necesarias, no en lectura completa."
+  - "El presupuesto exacto de contexto queda unknown porque no se informo context_before/context_after."
+claims_verified:
+  - claim: "ai-rules-starter/README.md existe y es un documento raiz humano candidato para copia espanola."
+    label: VERIFIED_REPO_SCAN
+    decision: include
+    evidence:
+      - "command:wc -l ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md"
+      - "ai-rules-starter/README.md:1"
+      - "ai-rules-starter/README.md:3"
+      - "ai-rules-starter/README.md:5"
+  - claim: "ai-rules-starter/QUICKSTART.md existe y es un documento raiz humano candidato para copia espanola."
+    label: VERIFIED_REPO_SCAN
+    decision: include
+    evidence:
+      - "command:wc -l ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md"
+      - "ai-rules-starter/QUICKSTART.md:1"
+      - "ai-rules-starter/QUICKSTART.md:3"
+      - "ai-rules-starter/QUICKSTART.md:5"
+  - claim: "ai-rules-starter/GUIDE_BASIC.md existe y es un documento raiz humano candidato para copia espanola."
+    label: VERIFIED_REPO_SCAN
+    decision: include
+    evidence:
+      - "command:wc -l ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md"
+      - "ai-rules-starter/GUIDE_BASIC.md:1"
+      - "ai-rules-starter/GUIDE_BASIC.md:3"
+      - "ai-rules-starter/GUIDE_BASIC.md:5"
+      - "ai-rules-starter/GUIDE_BASIC.md:8"
+  - claim: "ai-rules-starter/FUNDAMENTALS.md existe y es un documento raiz humano candidato para copia espanola."
+    label: VERIFIED_REPO_SCAN
+    decision: include
+    evidence:
+      - "command:wc -l ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md"
+      - "ai-rules-starter/FUNDAMENTALS.md:1"
+      - "ai-rules-starter/FUNDAMENTALS.md:3"
+      - "ai-rules-starter/FUNDAMENTALS.md:5"
+      - "ai-rules-starter/FUNDAMENTALS.md:7"
+  - claim: "Ninguno de los cuatro archivos permitidos fue identificado como no-documento humano raiz con la lectura minima autorizada."
+    label: VERIFIED_REPO_SCAN
+    decision: no_exclusions_in_allowed_root_docs
+    evidence:
+      - "ai-rules-starter/README.md:1"
+      - "ai-rules-starter/QUICKSTART.md:1"
+      - "ai-rules-starter/GUIDE_BASIC.md:1"
+      - "ai-rules-starter/FUNDAMENTALS.md:1"
+claims_inferred:
+  - claim: "La futura copia espanola deberia incluir README.md, QUICKSTART.md, GUIDE_BASIC.md y FUNDAMENTALS.md como documentos raiz."
+    basis:
+      - "Los cuatro paths estan en allowed_scope.paths de la hoja 12."
+      - "Los encabezados y primeras lineas revisadas presentan guias, fundamentos o descripcion humana del starter."
+    confidence: high
+  - claim: "La hoja 12 no parece oversized para este grupo raiz."
+    basis:
+      - "El proxy actual reporto 154 lineas totales para los cuatro archivos, debajo del limite proxy de 180 lineas de la hoja."
+    confidence: medium
+claims_unknown:
+  - claim: "No se verifico el contenido completo de los cuatro documentos."
+    reason: "La hoja autorizo leer solo encabezados y lineas necesarias para clasificar."
+  - claim: "No se verificaron otros posibles documentos raiz fuera de README.md, QUICKSTART.md, GUIDE_BASIC.md y FUNDAMENTALS.md."
+    reason: "Fuera del allowed_scope de la hoja 12."
+  - claim: "context_before, context_after y medicion exacta de W."
+    reason: "El operador no informo esos valores."
+  - claim: "Pi enforcement."
+    reason: "Pi Agent no esta configurado para este smoke test y no fue probado."
+sources_reviewed:
+  - path: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/12-reading_leaf-root-docs-inventory.yaml"
+    lines_reviewed: "full input leaf"
+    purpose: "Autoridad de lectura, allowed_scope, stop conditions y presupuesto proxy."
+  - path: "ai-rules-starter/README.md"
+    lines_reviewed: "1-12"
+    purpose: "Clasificar si es documento humano raiz candidato."
+  - path: "ai-rules-starter/QUICKSTART.md"
+    lines_reviewed: "1-12"
+    purpose: "Clasificar si es documento humano raiz candidato."
+  - path: "ai-rules-starter/GUIDE_BASIC.md"
+    lines_reviewed: "1-12"
+    purpose: "Clasificar si es documento humano raiz candidato."
+  - path: "ai-rules-starter/FUNDAMENTALS.md"
+    lines_reviewed: "1-12"
+    purpose: "Clasificar si es documento humano raiz candidato."
+contradictions:
+  - id: leaf_vs_operator_packet_creation
+    status: noted_not_blocking
+    detail: "La hoja 12 lista 'No crear evidence_packet ni final_prompt' en disallowed_scope, pero el prompt operativo actual autoriza crear exactamente 20-evidence_packet-root-docs-inventory.yaml."
+    resolution: "Se siguio el prompt operativo actual y se creo solo el evidence_packet autorizado."
+  - id: leaf_reuse_scan_vs_allowed_scope_only
+    status: noted_not_blocking
+    detail: "La hoja 12 pide revisar 08 como senal de oversize, pero el prompt operativo exige usar solo allowed_scope de la hoja 12."
+    resolution: "No se reviso 08; se revalido el grupo raiz con comandos actuales sobre los cuatro archivos permitidos."
+risks:
+  - "La clasificacion no equivale a lectura completa ni a validacion de traduccion."
+  - "Si existen otros documentos raiz fuera de los cuatro paths permitidos, quedan fuera de esta hoja."
+  - "El estado de presupuesto exacto queda unknown sin context_before/context_after."
+  - "No hay prueba de Pi enforcement en este smoke test."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after; no se inventa medicion de W."
+  proxy_observed:
+    files_read: 4
+    total_source_lines_from_wc: 154
+    max_files_to_read: 4
+    max_total_source_lines_proxy: 180
+    oversized_label: null
+stop_label: PASS_WITH_WARNINGS
+usable_as_prompt_authority: true

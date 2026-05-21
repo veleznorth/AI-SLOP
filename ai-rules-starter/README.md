@@ -10,6 +10,10 @@ Minimum flow:
 request -> classify -> reading plan -> evidence -> final prompt -> Codex -> report
 ```
 
+Choose the run mode before starting: Lite, Standard, or Strict. See
+`docs/workflow-modes.md`, `docs/manual-operator-runbook.md`, and
+`docs/artifact-organization.md` for the operational P0 workflow.
+
 In this starter, Codex is the bounded implementer. Codex should implement only from the final prompt and should report changed files, checks, and risks.
 
 ## Repo Structure
@@ -21,6 +25,9 @@ ai-rules-starter/
   GUIDE_BASIC.md
   FUNDAMENTALS.md
   docs/
+    workflow-modes.md
+    manual-operator-runbook.md
+    artifact-organization.md
   starter-overlay/
     AGENTS.patch.md
     .ai-rules/

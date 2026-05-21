@@ -1,0 +1,58 @@
+packet_id: evidence_packet.commands_paths_constraints.spanish_copy_regeneration.b8f_5
+reading_leaf_id: reading_leaf.commands_paths_constraints.spanish_copy_regeneration.b8e
+human_summary:
+  - "Preserve shell commands byte-for-byte: `git diff --numstat` and `pi --tools read,grep,find,ls --no-session`."
+  - "Preserve source/path roots and prefixes: `ai-rules-starter/`, `starter-overlay/`, `.ai-rules/`, and `docs/`."
+  - "Preserve file/path tokens such as `AGENTS.md`, `final_prompt.md`, prompt filenames, docs paths, and `.ai-rules/` subpaths."
+  - "`ai-rules-starter-es/` was not found in allowed-scope source documents."
+  - "There is risk of confusing source paths with target overlay/destination paths."
+claims_verified:
+  - "VERIFIED_REPO_SCAN: `git diff --numstat` appears as a shell command; citations: ai-rules-starter/starter-overlay/AGENTS.patch.md:16, ai-rules-starter/starter-overlay/AGENTS.patch.md:24, ai-rules-starter/GUIDE_BASIC.md:15."
+  - "VERIFIED_REPO_SCAN: `pi --tools read,grep,find,ls --no-session` appears as a shell command; citation: ai-rules-starter/QUICKSTART.md:41."
+  - "VERIFIED_REPO_SCAN: Pi read-only tool tokens `read`, `grep`, `find`, and `ls` appear separately; citations: ai-rules-starter/docs/pi-agent-setup.md:37, ai-rules-starter/docs/pi-agent-setup.md:38, ai-rules-starter/docs/pi-agent-setup.md:39, ai-rules-starter/docs/pi-agent-setup.md:40."
+  - "VERIFIED_REPO_SCAN: `ai-rules-starter/` appears as a source/root path; citations: ai-rules-starter/README.md:18, ai-rules-starter/QUICKSTART.md:10, ai-rules-starter/QUICKSTART.md:13."
+  - "VERIFIED_REPO_SCAN: `starter-overlay/` and overlay paths appear; citations: ai-rules-starter/README.md:24, ai-rules-starter/README.md:36, ai-rules-starter/QUICKSTART.md:11, ai-rules-starter/QUICKSTART.md:14, ai-rules-starter/QUICKSTART.md:29."
+  - "VERIFIED_REPO_SCAN: `.ai-rules/` and subpaths appear; citations: ai-rules-starter/README.md:26, ai-rules-starter/QUICKSTART.md:17, ai-rules-starter/QUICKSTART.md:25, ai-rules-starter/QUICKSTART.md:37, ai-rules-starter/QUICKSTART.md:46."
+  - "VERIFIED_REPO_SCAN: `docs/` appears as a root/prefix with paths; citations: ai-rules-starter/README.md:23, ai-rules-starter/QUICKSTART.md:19, ai-rules-starter/QUICKSTART.md:23, ai-rules-starter/starter-overlay/AGENTS.patch.md:23."
+  - "VERIFIED_REPO_SCAN: `AGENTS.md`, `starter-overlay/AGENTS.patch.md`, and `ai-rules-starter/starter-overlay/AGENTS.patch.md` appear as paths/filenames; citation: ai-rules-starter/QUICKSTART.md:29."
+  - "VERIFIED_REPO_SCAN: prompt/file tokens `classifier.prompt.md`, `reading-planner.prompt.md`, `evidence-reader.prompt.md`, `final-prompt-builder.prompt.md`, and `final_prompt.md` appear; citations: ai-rules-starter/QUICKSTART.md:21, ai-rules-starter/QUICKSTART.md:38, ai-rules-starter/QUICKSTART.md:39, ai-rules-starter/QUICKSTART.md:40, ai-rules-starter/QUICKSTART.md:43."
+  - "VERIFIED_REPO_SCAN: `ai-rules-starter-es/` produced no matches in the targeted allowed-scope rg scan."
+claims_inferred:
+  - "INFERRED: In Spanish copy, preserve the verified command, path, directory, and filename tokens byte-for-byte rather than translating their words."
+  - "INFERRED: `starter-overlay/.ai-rules -> .ai-rules` and `ai-rules-starter/starter-overlay/.ai-rules -> .ai-rules` are source-to-destination path mappings, so both sides should stay literal."
+  - "INFERRED: `ai-rules-starter-es/` is not a source path to preserve; if used later, it is a target-path decision outside this reading leaf."
+claims_unknown:
+  - "UNKNOWN: Operator did not report context_before or context_after; exact W use is unknown."
+  - "UNKNOWN: This packet does not prove Pi enforcement; Pi Agent was not configured for this smoke test."
+  - "UNKNOWN: This packet does not verify any translation preserved these tokens."
+  - "UNKNOWN: Stop labels, markers, and numeric constants were not analyzed because they are outside this leaf."
+  - "UNKNOWN: No broad prose context was read for matches across more than five files."
+sources_reviewed:
+  - "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/16-reading_leaf-commands-paths-constraints.yaml: allowed_scope, search_plan, context_budget, and contradiction/disallowed_scope policy."
+  - >-
+    command: rg -n '`[^`]+`|ai-rules-starter[-A-Za-z0-9_./]*|\.ai-rules|AGENTS\.md' ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md ai-rules-starter/docs/*.md ai-rules-starter/docs/model-guides/*.md ai-rules-starter/starter-overlay/AGENTS.patch.md
+  - >-
+    command: rg -n -o '`[^`]+`|ai-rules-starter[-A-Za-z0-9_./]*|\.ai-rules|AGENTS\.md' ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md ai-rules-starter/docs/*.md ai-rules-starter/docs/model-guides/*.md ai-rules-starter/starter-overlay/AGENTS.patch.md
+  - >-
+    command: rg -n 'ai-rules-starter-es|ai-rules-starter/|starter-overlay/|\.ai-rules/|docs/' ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md ai-rules-starter/docs/*.md ai-rules-starter/docs/model-guides/*.md ai-rules-starter/starter-overlay/AGENTS.patch.md
+  - >-
+    command: rg -n 'ai-rules-starter-es' ai-rules-starter/README.md ai-rules-starter/QUICKSTART.md ai-rules-starter/GUIDE_BASIC.md ai-rules-starter/FUNDAMENTALS.md ai-rules-starter/docs/*.md ai-rules-starter/docs/model-guides/*.md ai-rules-starter/starter-overlay/AGENTS.patch.md
+contradictions:
+  - "CONTRADICTION: the reading_leaf disallowed_scope says not to create an evidence_packet, but the operator prompt authorizes exactly one packet for this role; this packet follows the operator prompt."
+  - "NONE_FOUND: no token was found that must both be translated and preserved byte-for-byte within this leaf's reviewed evidence."
+risks:
+  - "Matches were found in more than five files; if future work needs prose context rather than token preservation, split commands and paths into smaller leaves."
+  - "Source root `ai-rules-starter/` and destination/overlay paths such as `.ai-rules/` and `starter-overlay/.ai-rules` appear together and can be confused."
+  - "`ai-rules-starter-es/` is absent from allowed-scope source docs; treating it as a source path would be unsupported."
+  - "The Pi command appears as documentation/reference only; do not claim Pi enforcement was tested."
+context_budget_result:
+  status: unknown
+  operator_context_before: null
+  operator_context_after: null
+  reason: "The operator did not provide context_before/context_after, and no W percentage was measured or invented."
+  observed_rg_match_files: 7
+stop_label: COMMANDS_PATHS_READING_COMPLETE_WITH_SPLIT_RISK
+usable_as_prompt_authority:
+  status: true
+  scope: "Use only for preserving verified shell command and path/file tokens in a future Spanish-copy prompt."
+  exclusions: "Not authority for translation quality, stop labels, numeric constants, Pi enforcement, or final_prompt content."

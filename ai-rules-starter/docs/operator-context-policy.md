@@ -33,6 +33,8 @@ Example with `W = 258,400`:
 - Classifier: one cohesive request/feature per instance; no deep codebase read.
 - Reading Planner: Pi read-only; broad but shallow exploration.
 - Reader: one `reading_leaf` per run when possible.
+- Standard/Strict Reader: one `reading_leaf` per instance and exactly one
+  `evidence_packet` output.
 - Final Prompt Builder: use a fresh instance if evidence packets are large.
 - Implementer/Codex: do not start implementation if the operator sees high
   context.
@@ -42,6 +44,8 @@ This session-level policy is empirical, provisional, and calibrable by role and
 harness.
 
 Codex has high overhead. Prefer Pi Agent for read-only exploration and reading.
+Pi Agent real enforcement is NOT_PROVEN until a real Pi validation run is
+recorded.
 
 ## Oversize Rule
 

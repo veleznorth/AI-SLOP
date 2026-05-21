@@ -1,0 +1,65 @@
+human_summary:
+  - "La hoja 19 no tiene wording literal del aviso; la evidencia solo fija elementos obligatorios."
+  - "Cada archivo espanol debe declarar que es copia de lectura humana."
+  - "`ai-rules-starter/` debe seguir declarado como fuente operativa inglesa."
+  - "`ai-rules-starter-es/` no debe tratarse como overlay operativo; esto queda inferido, no citado literal."
+  - "No se tradujo contenido ni se creo `ai-rules-starter-es/`."
+packet_id: evidence_packet.spanish_copy_notice_constraints.b8f8
+reading_leaf_id: reading_leaf.spanish_copy_notice_constraints.spanish_copy_regeneration.b8e
+claims_verified:
+  - claim: "`ai-rules-starter-es/` se define como copia espanola de lectura humana desde `ai-rules-starter/`."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:8-9"
+  - claim: "La fuente operativa inglesa no debe alterarse."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:8-9"
+  - claim: "El trabajo futuro debe insertar en cada archivo espanol una aclaracion de copia de lectura y fuente operativa inglesa."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:19"
+  - claim: "`ai-rules-starter-es/` debe existir solo como copia de lectura humana en espanol."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:42"
+  - claim: "La estructura espanola debe reflejar la fuente actual `ai-rules-starter/`."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:43"
+  - claim: "Cada archivo espanol debe declarar que `ai-rules-starter/` sigue siendo la fuente operativa."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml:44"
+  - claim: "El stop report prohibe crear `ai-rules-starter-es/` todavia."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md:8,33"
+claims_inferred:
+  - claim: "Aviso candidato no definitivo: 'AVISO: Este archivo es una copia en espanol solo para lectura humana. La fuente operativa para agentes sigue siendo `ai-rules-starter/`. No uses ni copies `ai-rules-starter-es/` como overlay operativo del repo destino.'"
+    basis: "Inferido de copia de lectura humana y fuente operativa inglesa en 03:8-9,19,42-44."
+  - claim: "No copiar `ai-rules-starter-es/` al repo destino como overlay operativo es una consecuencia de que no sea la fuente operativa."
+    basis: "Inferido; la frase repo destino/overlay operativo no aparece literal en las fuentes permitidas."
+claims_unknown:
+  - claim: "Wording exacto definitivo del aviso humano."
+    reason: "Ninguna fuente permitida provee un texto literal; solo exige una aclaracion."
+  - claim: "Si el aviso debe usar etiqueta fija como AVISO, NOTICE o WARNING."
+    reason: "No hay evidencia local en allowed_scope."
+  - claim: "Si el aviso debe aparecer como encabezado, comentario YAML, bloque markdown o comentario de codigo."
+    reason: "No hay evidencia local en allowed_scope."
+  - claim: "Pi enforcement."
+    reason: "Pi Agent no esta configurado para este smoke test y no fue probado."
+sources_reviewed:
+  - path: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml"
+    lines: "8-9,19,42-44"
+    result: "Fuente principal para copia de lectura, fuente operativa y aviso requerido."
+  - path: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"
+    lines: "8,33-34"
+    result: "Confirma que aun no se debe crear la copia ni final_prompt."
+  - path: "ai-rules-starter/README.md"
+    lines: "16-20"
+    result: "Solo confirma presencia del arbol `ai-rules-starter/`; no aporta wording de aviso."
+  - command: "rg -n \"copia de lectura|fuente operativa|reading copy|operational source|ai-rules-starter-es|ai-rules-starter/\" ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md ai-rules-starter/README.md"
+    result: "No encontro wording literal definitivo para el aviso."
+contradictions:
+  - "La hoja 19 dice no crear evidence_packet, pero el prompt operativo autoriza exactamente este packet."
+  - "La hoja 19 pide revisar 10 y 11 como senales de replan, pero allowed_scope solo permite 03, 11 y README; no se leyo 10."
+risks:
+  - "Un final prompt builder podria convertir el aviso candidato inferido en wording definitivo sin decision humana."
+  - "Si el aviso se formula como instruccion operativa, podria confundir la copia de lectura con fuente operativa."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after."
+  files_read_within_allowed_scope: 3
+  w_metrics: unknown
+stop_label: UNKNOWN_NOTICE_REQUIREMENT
+usable_as_prompt_authority:
+  status: limited
+  allowed_use: "Elementos obligatorios del aviso humano."
+  prohibited_use: "Wording literal definitivo, implementacion, final_prompt o prueba de Pi enforcement."

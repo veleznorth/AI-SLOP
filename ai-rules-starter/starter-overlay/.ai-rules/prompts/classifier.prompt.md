@@ -25,8 +25,11 @@ not split unrelated requests into one classifier run.
 - Feature tree when the request has meaningful subfeatures.
 - Candidate executable leaves for implementation.
 - Initial diff_estimate for each feature and leaf.
+- Recommended mode: Lite, Standard, or Strict.
 - Scope risks.
 - Stop or proceed recommendation.
+- Short operator response with status, artifacts, findings, risks/blockers, and
+  next action.
 
 ## Boundaries
 

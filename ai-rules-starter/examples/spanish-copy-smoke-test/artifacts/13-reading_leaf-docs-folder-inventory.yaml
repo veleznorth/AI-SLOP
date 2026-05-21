@@ -1,0 +1,20 @@
+human_summary:
+  - "Existe para reemplazar parte de 05 separando docs/ de raiz y model-guides."
+  - "El lector debe inventariar documentos directos bajo docs/ sin leerlos todos completos."
+  - "Habilita decidir que docs generales entran en la copia espanola."
+reading_leaf_id: reading_leaf.docs_folder_inventory.spanish_copy_regeneration.b8e
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+replaces_reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+primary_question: "Que documentos bajo ai-rules-starter/docs/ deben incluirse en la copia espanola?"
+decision_link: {upstream_artifacts: ["ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/08-evidence_packet-source-inventory.yaml", "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/11-final_prompt_builder_stop_report.md"], resolves_unknowns: [docs_folder_include_scope], informs_next_decision: "Define el subconjunto docs/ general para un futuro prompt implementable."}
+allowed_scope: {paths: ["ai-rules-starter/docs/*.md"], exclude_paths: ["ai-rules-starter/docs/model-guides/"], operations: ["Listar documentos directos bajo docs/.", "Usar conteo de lineas y maximo cinco lecturas breves para clasificar."]}
+disallowed_scope: ["No leer docs/model-guides/.", "No leer raiz ni starter-overlay/.", "No traducir contenido.", "No crear ai-rules-starter-es/.", "No crear evidence_packet ni final_prompt."]
+search_plan: [{command: "find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' | sort", purpose: "Inventariar docs directos."}, {command: "find ai-rules-starter/docs -maxdepth 1 -type f -name '*.md' -print0 | xargs -0 wc -l", purpose: "Estimar tamano sin lectura completa."}, {command: "sed -n '1,10p' <docs_file>", purpose: "Leer solo encabezado de archivos ambiguos."}]
+success_condition: ["Lista docs directos con include/exclude/needs_decision.", "Excluye explicitamente model-guides porque 14 lo cubre.", "Si hay mas de cinco docs que requieren lectura, devuelve DOCS_FOLDER_SPLIT_REQUIRED."]
+stop_conditions: ["Si mas de 5 archivos requieren lectura contextual, detener y recomendar subhojas docs/.", "Si un doc parece operativo y ejemplo a la vez, marcar CONTRADICTION."]
+missing_evidence_policy: {label: UNKNOWN, instruction: "Archivo sin lectura o comando citado queda como needs_decision."}
+contradiction_policy: {label: CONTRADICTION, instruction: "Citar evidencia incompatible y no resolver por inferencia."}
+claim_label_policy: {labels: {VERIFIED_REPO_SCAN: "Respaldado por find, wc o cita.", INFERENCE_FROM_PATH: "Inferido por ruta/nombre.", UNKNOWN: "No probado.", CONTRADICTION: "Evidencia incompatible."}, forbidden_claims: ["No afirmar lectura completa.", "No pasar 08 como autoridad limpia."]}
+citation_format: {required: true, format: "path:line or command:<exact command>"}
+context_budget: {operator_visible_w_required: true, planner_estimate: low, max_files_to_read: 5, max_total_source_lines_proxy: 190, budget_percent_proxy_limit: 8, budget_percent_exact_target: 10, budget_percent_hard_cap: 15, split_if_exceeds: true, split_recommendation: "Si docs/ directo sigue excediendo, partir por docs de setup, safety y policy."}
+reuse_scan_required: {required: true, instruction: "Revisar 08 solo para saber que 05 fue oversized; ejecutar scan actual de docs/."}

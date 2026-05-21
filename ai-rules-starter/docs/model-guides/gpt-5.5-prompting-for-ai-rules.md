@@ -1,6 +1,8 @@
 # GPT-5.5 Prompting for AI Rules
 
 This is a local operational placeholder for final prompt creation.
+It remains a placeholder pending authorized deep GPT-5.5 prompting research.
+Do not present it as a validated final GPT-5.5 guide.
 
 ## Required Use
 

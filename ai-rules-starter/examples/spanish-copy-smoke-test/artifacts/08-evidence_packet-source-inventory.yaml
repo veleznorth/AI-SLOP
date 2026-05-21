@@ -1,0 +1,163 @@
+packet_id: evidence_packet.source_inventory.spanish_copy_regeneration.b8c
+reading_leaf_id: reading_leaf.source_inventory.spanish_copy_regeneration.b8b
+claims_verified:
+  - id: source_inventory.find_scan_completed
+    label: VERIFIED_REPO_SCAN
+    claim: "A read-only find scan found 39 candidate .md/.yaml/.yml/.txt files under ai-rules-starter/."
+    evidence:
+      - "command:find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) | sort"
+      - "output_summary: root_docs=4; docs=8; examples/first-task=1; examples/spanish-copy-smoke-test/artifacts=7; starter-overlay=19."
+  - id: source_inventory.line_count_proxy_completed
+    label: VERIFIED_REPO_SCAN
+    claim: "The line-count proxy for the 39 candidate files is 1253 total lines."
+    evidence:
+      - "command:find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) -print0 | xargs -0 wc -l | sort -n"
+      - "output_summary: 1253 total lines."
+  - id: source_inventory.directory_groups_confirmed
+    label: VERIFIED_REPO_SCAN
+    claim: "The repo has the expected source groups: root docs, docs, docs/model-guides, examples, examples/first-task, examples/spanish-copy-smoke-test/artifacts, starter-overlay, starter-overlay/.ai-rules, checklists, prompts, templates, packets, and ledger."
+    evidence:
+      - "command:find ai-rules-starter -maxdepth 3 -type d | sort"
+  - id: source_inventory.gpt55_doc_exists
+    label: VERIFIED_REPO_SCAN
+    claim: "ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md exists."
+    evidence:
+      - "command:test -f ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md; printf 'gpt55_doc_exists=%s\\n' \"$?\""
+      - "output_summary: gpt55_doc_exists=0."
+  - id: source_inventory.operator_context_policy_exists
+    label: VERIFIED_REPO_SCAN
+    claim: "ai-rules-starter/docs/operator-context-policy.md exists."
+    evidence:
+      - "command:test -f ai-rules-starter/docs/operator-context-policy.md; printf 'operator_context_policy_exists=%s\\n' \"$?\""
+      - "output_summary: operator_context_policy_exists=0."
+  - id: source_inventory.current_smoke_artifacts_exist
+    label: VERIFIED_REPO_SCAN
+    claim: "The current smoke-test artifacts 01 through 07 exist under ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/."
+    evidence:
+      - "command:find ai-rules-starter/examples/spanish-copy-smoke-test/artifacts -type f | sort"
+      - "output_summary: 01-root_requirement_packet.yaml through 07-reading_leaf-translation-constraints.yaml were listed before this packet was created."
+  - id: source_inventory.classified_by_group
+    label: VERIFIED_REPO_SCAN
+    claim: "Candidate files were classified by path and line-count proxy without full-document reads."
+    inventory:
+      include_candidates_root_docs:
+        line_count_proxy: 154
+        files:
+          - ai-rules-starter/FUNDAMENTALS.md
+          - ai-rules-starter/GUIDE_BASIC.md
+          - ai-rules-starter/QUICKSTART.md
+          - ai-rules-starter/README.md
+      include_candidates_docs:
+        line_count_proxy: 194
+        files:
+          - ai-rules-starter/docs/advanced-reference.md
+          - ai-rules-starter/docs/codex-setup.md
+          - ai-rules-starter/docs/convex-integration.md
+          - ai-rules-starter/docs/mcp-safety.md
+          - ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md
+          - ai-rules-starter/docs/operator-context-policy.md
+          - ai-rules-starter/docs/pi-agent-setup.md
+          - ai-rules-starter/docs/skills-policy.md
+      include_candidates_starter_overlay:
+        line_count_proxy: 419
+        files:
+          - ai-rules-starter/starter-overlay/.ai-rules/README.md
+          - ai-rules-starter/starter-overlay/.ai-rules/checklists/classifier.checklist.md
+          - ai-rules-starter/starter-overlay/.ai-rules/checklists/implementer.checklist.md
+          - ai-rules-starter/starter-overlay/.ai-rules/checklists/reading-planner.checklist.md
+          - ai-rules-starter/starter-overlay/.ai-rules/prompts/classifier.prompt.md
+          - ai-rules-starter/starter-overlay/.ai-rules/prompts/evidence-reader.prompt.md
+          - ai-rules-starter/starter-overlay/.ai-rules/prompts/final-prompt-builder.prompt.md
+          - ai-rules-starter/starter-overlay/.ai-rules/prompts/reading-planner.prompt.md
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/diff_estimate.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/diff_prediction_ledger_entry.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/diff_result.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/evidence_packet.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/executable_leaf.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/feature_node.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/final_prompt.md
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/operator_context_log.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/reading_leaf.yaml
+          - ai-rules-starter/starter-overlay/.ai-rules/templates/root_requirement_packet.yaml
+          - ai-rules-starter/starter-overlay/AGENTS.patch.md
+      needs_decision_examples:
+        line_count_proxy: 14
+        files:
+          - ai-rules-starter/examples/first-task/README.md
+      context_only_smoke_test_artifacts:
+        line_count_proxy: 472
+        files:
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/06-reading_leaf-target-state.yaml
+          - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/07-reading_leaf-translation-constraints.yaml
+    evidence:
+      - "command:find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) | sort"
+      - "command:find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) -print0 | xargs -0 wc -l | sort -n"
+claims_inferred:
+  - id: source_inventory.path_based_translation_scope
+    label: INFERENCE_FROM_PATH
+    claim: "Root docs, docs, and starter-overlay are likely source candidates for a future Spanish reading copy; examples/first-task needs an explicit decision; smoke-test artifacts are context for this smoke test, not automatic translation source."
+    basis:
+      - "The reading leaf explicitly names these candidate groups and warns not to assume smoke-test artifacts are source documents."
+      - "No full-document semantic review was performed."
+  - id: source_inventory.future_split_recommended
+    label: INFERENCE_FROM_PATH
+    claim: "The source set should be split for future reading or regeneration prompts because there are more than 3-5 relevant files."
+    basis:
+      - "command:find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) | sort"
+      - "output_summary: 39 candidate files."
+claims_unknown:
+  - id: source_inventory.translation_inclusion_final_decision
+    label: UNKNOWN
+    claim: "Which candidate files should be translated in the final implementation remains a downstream decision; this packet only inventories and classifies by group."
+  - id: source_inventory.full_content_semantics
+    label: UNKNOWN
+    claim: "No file was read end to end, so semantic completeness and file-specific translation decisions are unknown."
+  - id: source_inventory.context_budget_w
+    label: UNKNOWN
+    claim: "The operator did not provide context_before/context_after, so W percentage usage is unknown."
+sources_reviewed:
+  commands:
+    - "git status --short"
+    - "find ai-rules-starter/examples/spanish-copy-smoke-test/artifacts -type f | sort"
+    - "sed -n '1,220p' ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml"
+    - "find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) | sort"
+    - "find ai-rules-starter -type f \\( -name '*.md' -o -name '*.yaml' -o -name '*.yml' -o -name '*.txt' \\) -print0 | xargs -0 wc -l | sort -n"
+    - "find ai-rules-starter -maxdepth 3 -type d | sort"
+    - "test -f ai-rules-starter/docs/model-guides/gpt-5.5-prompting-for-ai-rules.md; printf 'gpt55_doc_exists=%s\\n' \"$?\""
+    - "test -f ai-rules-starter/docs/operator-context-policy.md; printf 'operator_context_policy_exists=%s\\n' \"$?\""
+  files_briefly_read:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/05-reading_leaf-source-inventory.yaml
+contradictions: []
+risks:
+  - id: source_inventory.read_leaf_oversize
+    label: READ_LEAF_OVERSIZE
+    detail: "The inventory contains 39 candidate files and a 1253-line proxy, exceeding the reading leaf max_total_source_lines_proxy of 80 and the 3-5 file split guidance."
+  - id: source_inventory.smoke_artifacts_confusion
+    label: SOURCE_SCOPE_CONFUSION
+    detail: "Smoke-test artifacts live under ai-rules-starter/ and can be confused with source documents unless treated as context-only."
+  - id: source_inventory.flat_artifacts_follow_up
+    label: FOLLOW_UP
+    detail: "Artifacts should be grouped by role after the smoke test."
+context_budget_result:
+  status: unknown
+  reason: "The operator did not report context_before/context_after; no W percentage was measured or inferred."
+  observed_proxy:
+    candidate_files: 39
+    line_count_proxy_total: 1253
+stop_label: READ_LEAF_OVERSIZE
+usable_as_prompt_authority:
+  status: limited
+  usable_for:
+    - "Current file inventory under ai-rules-starter/."
+    - "Existence of docs/model-guides/gpt-5.5-prompting-for-ai-rules.md."
+    - "Existence of docs/operator-context-policy.md."
+    - "Path-based grouping and split-risk guidance."
+  not_usable_for:
+    - "Final translation inclusion decisions."
+    - "Semantic correctness of future Spanish copy."
+    - "Any W percentage measurement."

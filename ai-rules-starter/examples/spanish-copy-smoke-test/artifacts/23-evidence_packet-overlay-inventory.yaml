@@ -1,0 +1,75 @@
+packet_id: evidence_packet.overlay_inventory.spanish_copy_regeneration.b8f.4
+reading_leaf_id: reading_leaf.overlay_inventory.spanish_copy_regeneration.b8e
+human_summary:
+  - "La reading_leaf 15 aisla el overlay AGENTS.patch.md como unico archivo de lectura."
+  - "El archivo de overlay existe y mide 26 lineas, por debajo del proxy de 80 lineas."
+  - "La contraparte espanola de lectura debe corresponder a AGENTS.patch.md, no a AGENTS.md."
+  - "La copia espanola debe ser no operativa para agentes y conservar markers gestionados."
+  - "No se verifico Pi enforcement y no se creo final_prompt ni ai-rules-starter-es/."
+claims_verified:
+  - claim: "Existe ai-rules-starter/starter-overlay/AGENTS.patch.md."
+    evidence: "command:test -f ai-rules-starter/starter-overlay/AGENTS.patch.md; exit=0"
+  - claim: "AGENTS.patch.md es el unico path permitido por la hoja 15."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:10"
+  - claim: "La hoja 15 pregunta que archivo de overlay debe tener contraparte espanola de lectura no operativa."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:8"
+  - claim: "La hoja 15 nombra AGENTS.patch.md como el archivo cuya copia de lectura debe decidirse."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:9"
+  - claim: "El overlay esta disenado para insertarse en el AGENTS.md operativo del repo destino."
+    evidence: "ai-rules-starter/starter-overlay/AGENTS.patch.md:3"
+  - claim: "La contraparte espanola debe ser lectura no operativa, no fuente operativa para agentes."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:3-4"
+  - claim: "El overlay contiene marker AI_RULES_MANAGED_START que debe preservarse."
+    evidence: "ai-rules-starter/starter-overlay/AGENTS.patch.md:5"
+  - claim: "El overlay contiene marker AI_RULES_MANAGED_END que debe preservarse."
+    evidence: "ai-rules-starter/starter-overlay/AGENTS.patch.md:26"
+  - claim: "AGENTS.patch.md mide 26 lineas."
+    evidence: "command:wc -l ai-rules-starter/starter-overlay/AGENTS.patch.md -> 26"
+claims_inferred:
+  - claim: "El archivo de contraparte espanola de lectura esperado es AGENTS.patch.es.md."
+    basis: "Inferido del nombre AGENTS.patch.md y del claim operativo del prompt actual; no existe evidencia de repo dentro del allowed_scope que cree ese archivo."
+  - claim: "Clasificacion para AGENTS.patch.md: include como copia de lectura espanola, con aviso no operativo."
+    basis: "La hoja 15 pide decidir si AGENTS.patch.md se copia como lectura y que advertencia necesita."
+  - claim: "Los markers AI_RULES_MANAGED deben conservarse literalmente en la contraparte espanola."
+    basis: "Son delimitadores gestionados del bloque fuente y aparecen como markers, no como prosa traducible."
+claims_unknown:
+  - claim: "No se probo que AGENTS.patch.es.md exista o haya sido generado."
+    reason: "La tarea prohibe implementar traduccion o crear ai-rules-starter-es/."
+  - claim: "No se verifico el contenido de artifacts/08-evidence_packet-source-inventory.yaml."
+    reason: "El prompt operativo ordeno usar solo el allowed_scope de la hoja 15."
+  - claim: "No se conoce context_before/context_after."
+    reason: "El operador no informo esos valores."
+  - claim: "No se probo Pi enforcement."
+    reason: "Pi Agent no esta configurado para este smoke test."
+  - claim: "No se verifico comportamiento runtime de agentes frente a la copia espanola."
+    reason: "Esta hoja es solo inventario de lectura."
+sources_reviewed:
+  - path: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml"
+    lines: "1-20"
+    purpose: "Autoridad de la reading_leaf 15, scope, restricciones y pregunta primaria."
+  - path: "ai-rules-starter/starter-overlay/AGENTS.patch.md"
+    lines: "1-26"
+    purpose: "Unico archivo fuente permitido por allowed_scope."
+  - command: "wc -l ai-rules-starter/starter-overlay/AGENTS.patch.md"
+    result: "26 ai-rules-starter/starter-overlay/AGENTS.patch.md"
+contradictions:
+  - label: "CONTRADICTION_INHERITED_PLANNER"
+    detail: "La hoja 15 dice no crear evidence_packet, pero el prompt operativo autoriza crear exactamente uno."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:11"
+  - label: "SCOPE_CONFLICT"
+    detail: "La hoja 15 requiere revisar artifact 08, pero el prompt operativo limita la ejecucion al allowed_scope de la hoja 15; no se reviso 08."
+    evidence: "ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/15-reading_leaf-overlay-inventory.yaml:20"
+  - label: "OPERATIONAL_CONFUSION_RISK"
+    detail: "Como el source se inserta en AGENTS.md, una copia espanola no debe ubicarse ni tratarse como AGENTS.md operativo."
+    evidence: "ai-rules-starter/starter-overlay/AGENTS.patch.md:3"
+risks:
+  - "Si AGENTS.patch.es.md se presenta como fuente operativa, podria contradecir la autoridad del prompt actual."
+  - "Si se traducen markers AI_RULES_MANAGED, podria romperse la delimitacion gestionada."
+  - "La decision de nombre AGENTS.patch.es.md queda inferida por contrato del prompt, no por archivo existente."
+context_budget_result:
+  status: unknown
+  reason: "El operador no informo context_before/context_after; no se inventan porcentajes W."
+  measured_source_lines_proxy: 26
+  proxy_limit_lines: 80
+stop_label: "READING_LEAF_15_COMPLETE"
+usable_as_prompt_authority: false

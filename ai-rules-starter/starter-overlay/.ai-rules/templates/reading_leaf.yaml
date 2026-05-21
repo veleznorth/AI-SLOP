@@ -2,7 +2,16 @@ leaf_id: ""
 feature_id: ""
 source: ""
 reason: ""
+primary_question: ""
+allowed_scope: []
+disallowed_scope:
+  - final_prompt
+  - implementation
+  - modifications_outside_authorized_evidence_packet
 expected_evidence: []
+expected_output:
+  artifact_type: evidence_packet
+  count: 1
 reuse_scan_required: false
 context_budget:
   operator_visible_w_required: true

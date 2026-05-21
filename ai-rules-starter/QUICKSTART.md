@@ -32,17 +32,24 @@ If the target repo has existing agent rules, append the AI Rules block without d
 
 ## 3. Run a First Manual Task
 
+First choose Lite, Standard, or Strict from `docs/workflow-modes.md`. Use the
+full operator flow in `docs/manual-operator-runbook.md` when you need a run from
+zero.
+
 Use this manual sequence:
 
 1. Write the human request in `.ai-rules/packets/`.
 2. Use `classifier.prompt.md` to classify scope.
 3. Use `reading-planner.prompt.md` to choose files to inspect.
-4. Use `evidence-reader.prompt.md` to collect evidence.
+4. Use `evidence-reader.prompt.md` to collect exactly one evidence packet per
+   reading leaf in Standard/Strict.
 5. Optional: use Pi read-only with `pi --tools read,grep,find,ls --no-session`
-   for planner/reader evidence only.
+   for planner/reader evidence only. Do not claim Pi enforcement is proven
+   until a real Pi validation run is recorded.
 6. Use `final-prompt-builder.prompt.md` to produce the implementer prompt.
 7. Use a fresh instance before a new phase if the current session is high.
-8. Give only that final prompt to Codex.
-9. Record the result and checks in `.ai-rules/ledger/`.
+8. Give `final_prompt.md directly` to Codex.
+9. Record the result, checks, `numstat_method`, and R2 added + deleted count in
+   `.ai-rules/ledger/`.
 
 Do not add automation yet.

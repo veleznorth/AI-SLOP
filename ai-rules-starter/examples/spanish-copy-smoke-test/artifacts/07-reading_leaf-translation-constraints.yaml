@@ -1,0 +1,88 @@
+reading_leaf_id: reading_leaf.translation_constraints.spanish_copy_regeneration.b8b
+executable_leaf_id: executable_leaf.regenerate_spanish_reading_copy
+primary_question: "Que restricciones deben preservarse al traducir/regenerar la copia espanola?"
+decision_link:
+  upstream_artifacts:
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+  resolves_unknowns:
+    - managed_marker_frequency
+    - file_specific_translation_rules
+    - marker_preservation_check
+  informs_next_decision: "Produce la lista de tokens, comandos, rutas, labels y avisos que el prompt final debe proteger byte-for-byte o semantically unchanged."
+allowed_scope:
+  paths:
+    - ai-rules-starter/
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/01-root_requirement_packet.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/02-feature_node.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/03-executable_leaf.yaml
+    - ai-rules-starter/examples/spanish-copy-smoke-test/artifacts/04-diff_estimate.initial.yaml
+  operations:
+    - "Busqueda dirigida de comandos shell, rutas, stop labels, valores R1/R2/W, porcentajes 8/10/15, valores 500/600 y managed markers."
+    - "Lectura limitada de lineas coincidentes y contexto minimo alrededor de matches."
+    - "Identificar la nota obligatoria de copia de lectura y fuente operativa inglesa."
+    - "Registrar que Pi Agent no esta configurado para este smoke test y que Codex actua como rol read-only simulado."
+disallowed_scope:
+  - "Traducir prosa."
+  - "Validar semantica final de una traduccion inexistente."
+  - "Probar Pi enforcement o declarar que Pi enforcement fue probado."
+  - "Crear o modificar ai-rules-starter-es/."
+  - "Modificar ai-rules-starter/."
+  - "Crear evidence_packet, final_prompt o audit_report."
+search_plan:
+  - command: "rg -n \"AI_RULES_MANAGED|STOP|stop label|stop labels|R1|R2|\\\\bW\\\\b|8%|10%|15%|500|600\" ai-rules-starter --glob '*.md' --glob '*.yaml'"
+    purpose: "Encontrar tokens protegidos y constraints numericos."
+  - command: "rg -n \"`[^`]+`\" ai-rules-starter --glob '*.md' --glob '*.yaml'"
+    purpose: "Encontrar comandos, rutas e identificadores en backticks para preservar."
+  - command: "rg -n \"copy|reading|operational source|source operative|fuente operativa|copia de lectura\" ai-rules-starter ai-rules-starter/examples/spanish-copy-smoke-test/artifacts --glob '*.md' --glob '*.yaml'"
+    purpose: "Detectar texto fuente o requisito de aviso de copia de lectura."
+  - command: "sed -n '<match_line_minus_2>,<match_line_plus_2>p' <archivo>"
+    purpose: "Leer solo contexto minimo de coincidencias relevantes."
+success_condition:
+  - "Lista restricciones que deben preservarse: comandos, rutas, stop labels, nombres de archivos, markers, R1/R2/W, 500/600 y 8%/10%/15%."
+  - "Cita ubicaciones de managed markers y stop labels encontrados."
+  - "Define que cada archivo espanol debe incluir aviso de copia de lectura y fuente operativa inglesa."
+  - "Advierte que la version inglesa sigue siendo operativa y la espanola es solo lectura humana."
+  - "Indica explicitamente que Pi Agent no esta configurado aqui y que no se probo Pi enforcement."
+stop_conditions:
+  - "Si la busqueda devuelve matches en mas de 5 archivos que requieren lectura contextual, detener y recomendar dividir por token group."
+  - "Si algun marker o stop label aparece en contenido que no debe tocarse, marcar PROTECTED_TOKEN_HIGH_RISK."
+  - "Si se necesita interpretar semantica de traduccion, detener; eso pertenece a fase posterior."
+missing_evidence_policy:
+  label: UNKNOWN
+  instruction: "Si no se encuentra una clase de token, registrar no_found_by_scan con comando exacto; no afirmar ausencia global sin el comando citado."
+contradiction_policy:
+  label: CONTRADICTION
+  instruction: "Si un requisito de traduccion entra en conflicto con preservacion de tokens, priorizar preservacion y devolver decision requerida con citas."
+claim_label_policy:
+  labels:
+    PROMPT_AUTHORITY: "Regla tomada del prompt actual o artefactos B8a."
+    VERIFIED_REPO_SCAN: "Token o marker encontrado con rg o lectura de lineas citada."
+    NO_PI_ENFORCEMENT_PROOF: "Recordatorio obligatorio: no declarar Pi enforcement probado."
+    UNKNOWN: "Sin evidencia suficiente."
+    CONTRADICTION: "Conflicto entre regla y evidencia."
+  forbidden_claims:
+    - "No declarar que Pi Agent esta configurado."
+    - "No declarar que Pi enforcement fue probado."
+    - "No declarar que los tokens fueron preservados en una traduccion, porque aun no existe traduccion."
+citation_format:
+  required: true
+  format: "path:line for source matches; command:<exact rg command> for no_found_by_scan"
+  examples:
+    - "ai-rules-starter/starter-overlay/AGENTS.patch.md:5"
+    - "ai-rules-starter/GUIDE_BASIC.md:14"
+context_budget:
+  operator_visible_w_required: true
+  planner_estimate: medium
+  max_files_to_read: 5
+  max_total_source_lines_proxy: 220
+  budget_percent_proxy_limit: 8
+  budget_percent_exact_target: 10
+  budget_percent_hard_cap: 15
+  split_if_exceeds: true
+  split_recommendation: "Si los matches exceden 5 archivos, separar constraints en managed markers, stop labels, commands/paths y W/R1/R2 numeric policy."
+reuse_scan_required:
+  required: true
+  instruction: "Revisar si 05 o 06 ya identificaron archivos relevantes; reutilizar rutas y conteos, pero volver a ejecutar busquedas dirigidas de tokens protegidos."
